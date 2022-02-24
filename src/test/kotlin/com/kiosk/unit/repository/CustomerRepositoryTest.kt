@@ -17,8 +17,8 @@ class CustomerRepositoryTest @Autowired constructor(
 ) {
 
     @Test
-    fun `소비자 저장 테스트 - 성공`() {
-        val customer: Customer = Customer(1L, LocalDateTime.now(), true, Grade.NORMAL)
+    fun `소비자 정보 저장 테스트`() {
+        val customer = Customer(1L, LocalDateTime.now(), true, Grade.NORMAL)
 
         val savedCustomer = customerRepository.save(customer)
 

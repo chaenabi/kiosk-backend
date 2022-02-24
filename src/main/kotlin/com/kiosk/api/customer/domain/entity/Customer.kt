@@ -13,6 +13,9 @@ class Customer(
     @CreationTimestamp
     var registerDate: LocalDateTime,
 
+    var contactNumber: String,
+    var name: String = contactNumber.substring(contactNumber.length - 4),
+
     @Convert(converter = YNToBooleanCOnverter::class)
     @Column(length = 1)
     var isActive: Boolean,

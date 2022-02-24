@@ -1,5 +1,6 @@
 package com.kiosk.api.store.domain.entity
 
+import com.kiosk.api.admin.domain.entity.Admin
 import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.enums.StoreStatus
 import javax.persistence.*
@@ -21,5 +22,8 @@ class Store(
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "items")
-    var order: Order
+    var order: Order,
+
+    @OneToOne(mappedBy = "store")
+    var admin: Admin
 )
