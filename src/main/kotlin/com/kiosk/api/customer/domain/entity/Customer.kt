@@ -6,15 +6,15 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "customers")
 class Customer(
     @Id @GeneratedValue @Column(name = "customer_id")
-    var id: Long?,
+    var id: Long? = null,
 
     @CreationTimestamp
     var registerDate: LocalDateTime,
 
     @Convert(converter = YNToBooleanCOnverter::class)
+    @Column(length = 1)
     var isActive: Boolean,
 
     @Enumerated(value = EnumType.STRING)

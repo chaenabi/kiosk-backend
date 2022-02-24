@@ -13,6 +13,7 @@ plugins {
 
     kotlin("kapt") version kotlinVersion
     kotlin("plugin.allopen") version kotlinVersion
+    kotlin("plugin.noarg") version kotlinVersion
 }
 
 group = "com.kiosk"
@@ -25,6 +26,16 @@ configurations {
     }
 }
 
+allOpen {
+    annotation("javax.persistence.Entity")
+}
+
+noArg {
+    annotation("javax.persistence.Entity")
+    invokeInitializers = true
+}
+
+
 repositories {
     mavenCentral()
 }
@@ -32,18 +43,30 @@ repositories {
 val snippetsDir by extra { file("build/generated-snippets") }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    // devtools
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // queryDSL
     implementation("com.querydsl:querydsl-jpa")
     kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    // lombok
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // databases
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
-    annotationProcessor("org.projectlombok:lombok")
+
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }

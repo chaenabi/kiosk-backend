@@ -11,9 +11,10 @@ import javax.persistence.FetchType.LAZY
 @Table(name = "orders")
 class Order(
     @Id @GeneratedValue @Column(name = "order_id")
-    var id: Long?,
+    var id: Long? = null,
 
     @Enumerated(value = EnumType.STRING)
+    @Column(length = 16)
     var status: OrderStatus,
     var orderDate: LocalDateTime,
 
@@ -21,7 +22,10 @@ class Order(
     @JoinColumn(name = "customer_id")
     var customer: Customer,
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, mappedBy = "order", orphanRemoval = true)
     @JoinColumn(name = "store_id")
-    var store: Store
+    var store: Store,
+
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    var orders: MutableList<OrderItem>
 )
