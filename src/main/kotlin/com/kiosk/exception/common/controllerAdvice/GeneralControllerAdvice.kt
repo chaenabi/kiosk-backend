@@ -1,14 +1,14 @@
-package com.kiosk.exception.controllerAdvice
+package com.kiosk.exception.common.controllerAdvice
 
-import com.kiosk.exception.ErrorResponseDTO
-import lombok.extern.slf4j.Slf4j
+import com.kiosk.exception.common.BizException
+import com.kiosk.exception.common.ErrorCode
+import com.kiosk.exception.common.ErrorResponseDTO
+import com.kiosk.exception.common.InvalidParameterException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import java.util.*
 
-@Slf4j
 class GeneralControllerAdvice {
 
     companion object {
@@ -16,17 +16,9 @@ class GeneralControllerAdvice {
             val response: ErrorResponseDTO = ErrorResponseDTO.builder()
                 .errorCode(httpStatus.value())
                 .httpStatus(httpStatus)
-                .message(
-                    Arrays.stream(e)
-                        .filter { obj: Exception? ->
-                            Objects.nonNull(
-                                obj
-                            )
-                        }.findFirst()
-                        .map { obj: Exception -> obj.message }
-                        .orElse(httpStatus.reasonPhrase))
+                .message(e.message ?: httpStatus.reasonPhrase)
                 .build()
-            //log.error(response.getMessage())
+
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }
 
@@ -40,23 +32,17 @@ class GeneralControllerAdvice {
         </ErrorResponseDTO> */
         fun handleValidParameterException(
             httpStatus: HttpStatus,
-            errorCode: ErrorCode?,
-            e: InvalidParameterException?
-        ): ResponseEntity<ErrorResponseDTO?>? {
+            errorCode: ErrorCode,
+            e: InvalidParameterException
+        ): ResponseEntity<ErrorResponseDTO> {
             val response: ErrorResponseDTO = ErrorResponseDTO.builder()
                 .errorCode(httpStatus.value())
                 .httpStatus(httpStatus)
-                .message(
-                    Arrays.stream(e)
-                        .filter { obj: Any? -> Objects.nonNull(obj) }.findFirst()
-                        .map { obj: Exception -> obj.message }
-                        .orElse(httpStatus.toString()))
+                .message(e.message ?: httpStatus.toString())
                 .errors(
-                    Arrays.stream(e)
-                        .filter { obj: Any? -> Objects.nonNull(obj) }
-                        .findFirst()
-                        .orElseThrow { BizException(GeneralParameterErrorCode.INVALID_PARAMETER) }
-                        .getErrors(), errorCode)
+                    e.errors ?: throw BizException(GeneralParameterErrorCode.INVALID_PARAMETER),
+                    errorCode
+                )
                 .build()
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }

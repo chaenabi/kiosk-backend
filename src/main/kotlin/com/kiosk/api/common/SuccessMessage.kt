@@ -1,3 +1,5 @@
 package com.kiosk.api.common
 
-interface SuccessMessage {}
+interface SuccessMessage {
+    val msg: String
+}

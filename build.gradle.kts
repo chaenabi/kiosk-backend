@@ -14,6 +14,8 @@ plugins {
     kotlin("kapt") version kotlinVersion
     kotlin("plugin.allopen") version kotlinVersion
     kotlin("plugin.noarg") version kotlinVersion
+
+    kotlin("plugin.serialization") version kotlinVersion
 }
 
 group = "com.kiosk"
@@ -55,15 +57,14 @@ dependencies {
     // validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    // serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     // queryDSL
     implementation("com.querydsl:querydsl-jpa")
     kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
-
-    // lombok
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
 
     // databases
     runtimeOnly("com.h2database:h2")
@@ -72,6 +73,8 @@ dependencies {
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("io.mockk:mockk:1.12.2")
+    testImplementation("com.ninja-squad:springmockk:3.1.0")
 }
 
 tasks.withType<KotlinCompile> {

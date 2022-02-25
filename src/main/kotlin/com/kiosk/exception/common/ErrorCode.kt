@@ -1,4 +1,4 @@
-package com.kiosk.exception
+package com.kiosk.exception.common
 
 import org.springframework.http.HttpStatus
 

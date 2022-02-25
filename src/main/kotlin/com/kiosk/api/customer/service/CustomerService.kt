@@ -12,7 +12,7 @@ class CustomerService(
     val customerRepository: CustomerRepository
 ) {
     fun register(customer: CustomerRequestDTO.Register): CustomerResponseDTO {
-        val savedCustomer = customerRepository.save(CustomerRequestDTO(customer).toEntity())
+        val savedCustomer = customerRepository.save(customer.toEntity())
         return CustomerResponseDTO(savedCustomer)
     }
 

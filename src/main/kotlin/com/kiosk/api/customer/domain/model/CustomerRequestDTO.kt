@@ -5,54 +5,45 @@ import com.kiosk.api.customer.domain.enums.CustomerGrade
 
 class CustomerRequestDTO {
 
-    private var id: Long? = null
-    private lateinit var contactNumber: String
-    private var name: String? = null
-    private lateinit var role: CustomerGrade
-    private var isActive: Boolean = true
-
     data class Register(
-        val contactNumber: String,
-        val name: String,
+        val contactNumber: String? = null,
+        val name: String? = null,
         val role: CustomerGrade = CustomerGrade.NORMAL,
         val isActive: Boolean = true
-    )
+    ) {
+        fun toEntity(): Customer {
+            return Customer(
+                contactNumber = contactNumber,
+                name = name,
+                role = role,
+                isActive = isActive
+            )
+        }
+    }
 
     data class Update(
+        val id: Long?,
         val contactNumber: String,
         val name: String,
-    )
+        val role: CustomerGrade,
+        val isActive: Boolean
+    ) {
+        fun toEntity(): Customer {
+            return Customer(
+                id = id,
+                contactNumber = contactNumber,
+                name = name,
+                role = role,
+                isActive = isActive
+            )
+        }
+    }
 
     data class Delete(
         val id: Long
-    )
-
-    private constructor()
-
-    constructor(register: Register) {
-        this.contactNumber = register.contactNumber
-        this.name = register.name
-        this.role = register.role
-        this.isActive = register.isActive
+    ) {
+        fun toEntity(): Customer {
+            return Customer(id = id)
+        }
     }
-
-    constructor(update: Update) {
-        this.contactNumber = update.contactNumber
-        this.name = update.name
-    }
-
-    constructor(delete: Delete) {
-        this.id = delete.id
-    }
-
-    fun toEntity(): Customer {
-        return Customer(
-            id = id,
-            contactNumber = contactNumber,
-            name = name,
-            role = role,
-            isActive = isActive
-        )
-    }
-
 }

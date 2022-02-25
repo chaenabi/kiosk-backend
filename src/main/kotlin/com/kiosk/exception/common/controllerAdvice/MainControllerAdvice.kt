@@ -1,7 +1,9 @@
-package com.kiosk.exception.controllerAdvice
+package com.kiosk.exception.common.controllerAdvice
 
-import com.kiosk.exception.ErrorResponseDTO
-import lombok.extern.slf4j.Slf4j
+import com.kiosk.exception.common.BizException
+import com.kiosk.exception.common.ErrorResponseDTO
+import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleGeneralException
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -13,9 +15,11 @@ import org.springframework.web.client.HttpServerErrorException.ServiceUnavailabl
 import org.springframework.web.servlet.NoHandlerFoundException
 import java.net.MalformedURLException
 
-@Slf4j
 @RestControllerAdvice
 class MainControllerAdvice {
+
+    private val log = LoggerFactory.getLogger(javaClass)
+
     /**
      * 예상하지 못한, 예외처리하지 못한 코드에서
      * 에러가 발생할 때 동작합니다.
@@ -24,8 +28,8 @@ class MainControllerAdvice {
      * @return 500
      */
     @ExceptionHandler(Exception::class)
-    protected fun handleException(e: Exception?): ResponseEntity<ErrorResponseDTO> {
-        return GeneralControllerAdvice.handleGeneralException(HttpStatus.INTERNAL_SERVER_ERROR, e)
+    protected fun handleException(e: Exception): ResponseEntity<ErrorResponseDTO> {
+        return handleGeneralException(HttpStatus.INTERNAL_SERVER_ERROR, e)
     }
 
     /**
@@ -34,14 +38,14 @@ class MainControllerAdvice {
      * @return 404
      */
     @ExceptionHandler(HttpMessageNotReadableException::class)
-    fun catchIllegalArgumentException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponseDTO?>? {
+    fun catchIllegalArgumentException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponseDTO> {
         // 직접 메시지 커스텀
         val errorResponseDTO: ErrorResponseDTO = ErrorResponseDTO.builder()
             .message("필수 항목이 모두 비어있습니다.")
             .httpStatus(HttpStatus.NOT_FOUND)
             .build()
         log.error(e.message)
-        return ResponseEntity<ErrorResponseDTO?>(errorResponseDTO, HttpStatus.NOT_FOUND)
+        return ResponseEntity<ErrorResponseDTO>(errorResponseDTO, HttpStatus.NOT_FOUND)
     }
 
     /**
@@ -57,12 +61,12 @@ class MainControllerAdvice {
      * @return 400
      */
     @ExceptionHandler(IllegalArgumentException::class)
-    protected fun handleIllgegalURLException(iae: IllegalArgumentException?): ResponseEntity<ErrorResponseDTO?>? {
+    protected fun handleIllgegalURLException(iae: IllegalArgumentException): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.BAD_REQUEST, iae)
     }
 
     @ExceptionHandler(MalformedURLException::class)
-    protected fun handleMalformedURLException(mue: MalformedURLException?): ResponseEntity<ErrorResponseDTO?>? {
+    protected fun handleMalformedURLException(mue: MalformedURLException): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.BAD_REQUEST, mue)
     }
 
@@ -72,8 +76,8 @@ class MainControllerAdvice {
      * @return 404 뷰페이지
      */
     @ExceptionHandler(NoHandlerFoundException::class)
-    protected fun handle404(nhfe: NoHandlerFoundException?): ResponseEntity<ErrorResponseDTO?>? {
-        MainControllerAdvice.log.error("어떤 유저가 존재하지 않는 url로 자원을 요청했습니다.")
+    protected fun handle404(nhfe: NoHandlerFoundException): ResponseEntity<ErrorResponseDTO> {
+        log.error("어떤 유저가 존재하지 않는 url로 자원을 요청했습니다.")
         return handleGeneralException(HttpStatus.NOT_FOUND, nhfe)
     }
 
@@ -86,7 +90,7 @@ class MainControllerAdvice {
      * @return 405
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
-    protected fun handleHttpRequestMethodNotSupportedException(e: HttpRequestMethodNotSupportedException?): ResponseEntity<ErrorResponseDTO?>? {
+    protected fun handleHttpRequestMethodNotSupportedException(e: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.METHOD_NOT_ALLOWED, e)
     }
 
@@ -98,7 +102,7 @@ class MainControllerAdvice {
      * @return 502
      */
     @ExceptionHandler(BadGateway::class)
-    protected fun handleBadGateway(e: BadGateway?): ResponseEntity<ErrorResponseDTO?>? {
+    protected fun handleBadGateway(e: BadGateway): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.BAD_GATEWAY, e)
     }
 
@@ -110,7 +114,7 @@ class MainControllerAdvice {
      * @return 503
      */
     @ExceptionHandler(ServiceUnavailable::class)
-    protected fun handleServiceUnavailable(e: ServiceUnavailable?): ResponseEntity<ErrorResponseDTO?>? {
+    protected fun handleServiceUnavailable(e: ServiceUnavailable): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.SERVICE_UNAVAILABLE, e)
     }
 
@@ -122,7 +126,7 @@ class MainControllerAdvice {
      * @return new BizException(e)에서 생성자로 전달된 e의 정보를 반환
      */
     @ExceptionHandler(BizException::class)
-    fun catchBizException(e: BizException): ResponseEntity<ErrorResponseDTO?>? {
-        return handleGeneralException(e.getHttpStatus(), e)
+    fun catchBizException(e: BizException): ResponseEntity<ErrorResponseDTO> {
+        return handleGeneralException(e.httpStatus, e)
     }
 }

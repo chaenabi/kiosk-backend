@@ -1,4 +1,4 @@
-package com.kiosk.exception
+package com.kiosk.exception.common
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
-import lombok.Getter
-import lombok.RequiredArgsConstructor
 import org.springframework.http.HttpStatus
 import org.springframework.validation.Errors
 import org.springframework.validation.FieldError
@@ -118,8 +116,6 @@ class ErrorResponseDTO {
     /**
      * # @Valid 또는 @Validated 에 의한 parameter 검증에 통과하지 못한 필드가 담긴 클래스.
      */
-    @Getter
-    @RequiredArgsConstructor
     class CustomFieldError(
         private val rejectedParameter: String? = null,
         private val rejectedValue: Any? = null,

@@ -6,6 +6,7 @@ import com.kiosk.api.customer.domain.enums.CustomerMessage
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.service.CustomerService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +16,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/v1")
 class CustomerController(
-    val customerService: CustomerService
+    private val customerService: CustomerService
 ) {
     @PostMapping("/customer")
     fun saveCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Register): ResponseDTO<CustomerResponseDTO> {

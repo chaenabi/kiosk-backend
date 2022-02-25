@@ -11,13 +11,13 @@ class ResponseDTO<T> {
     val httpStatus: HttpStatus
 
     constructor(message: SuccessMessage, httpStatus: HttpStatus) {
-        this.message = message.getMsg()
+        this.message = message.msg
         this.httpStatus = httpStatus
     }
 
     constructor(data: T, message: SuccessMessage, httpStatus: HttpStatus) {
         this.data = data
-        this.message = message.getMsg()
+        this.message = message.msg
         this.httpStatus = httpStatus
     }
 
