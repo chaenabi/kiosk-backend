@@ -8,7 +8,7 @@ spring:
         trace: false
 
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;;DATABASE_TO_UPPER=false
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -21,6 +21,8 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+    generate-ddl: true
 
   devtools:
     livereload:

@@ -1,29 +1,31 @@
 package com.kiosk.api.customer.domain.entity
 
-import com.kiosk.api.customer.domain.enums.Grade
+import com.kiosk.api.customer.domain.enums.CustomerGrade
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.DynamicUpdate
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
+@DynamicUpdate
 class Customer(
     @Id @GeneratedValue @Column(name = "customer_id")
     var id: Long? = null,
-
-    @CreationTimestamp
-    var registerDate: LocalDateTime,
-
-    var contactNumber: String,
-    var name: String = contactNumber.substring(contactNumber.length - 4),
+    var contactNumber: String?,
+    var name: String? = contactNumber?.let { it.substring(it.length - 4) },
 
     @Convert(converter = YNToBooleanCOnverter::class)
     @Column(length = 1)
-    var isActive: Boolean,
+    var isActive: Boolean = true,
 
     @Enumerated(value = EnumType.STRING)
-    var role: Grade
+    var role: CustomerGrade = CustomerGrade.NORMAL
 ) {
-    companion object YNToBooleanCOnverter: AttributeConverter<Boolean, String> {
+    @CreationTimestamp
+    lateinit var registerDate: LocalDateTime
+
+    companion object YNToBooleanCOnverter : AttributeConverter<Boolean, String> {
         override fun convertToDatabaseColumn(attribute: Boolean): String {
             return if (attribute) "Y" else "N"
         }
@@ -32,4 +34,10 @@ class Customer(
             return dbData == "Y" || dbData == "y"
         }
     }
+
+    override fun toString(): String {
+        return "Customer(id=$id, contactNumber=$contactNumber, name=$name, isActive=$isActive, role=$role, registerDate=$registerDate)"
+    }
+
+
 }

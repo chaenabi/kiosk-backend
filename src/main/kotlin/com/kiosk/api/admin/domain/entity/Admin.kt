@@ -4,6 +4,7 @@ import com.kiosk.api.store.domain.entity.Store
 import javax.persistence.*
 
 @Entity
+@Table(name = "administrator")
 class Admin(
     @Id @GeneratedValue @Column(name = "admin_id")
     var id: Long? = null,
@@ -14,4 +15,8 @@ class Admin(
     @OneToOne
     @JoinColumn(name = "admin")
     var store: Store
-)
+) {
+    override fun toString(): String {
+        return "Admin(id=$id, name='$name', password='$password', store=$store)"
+    }
+}
