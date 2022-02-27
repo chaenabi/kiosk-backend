@@ -1,20 +1,11 @@
 package com.kiosk.api.customer.domain.entity
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.kiosk.api.customer.domain.enums.CustomerGrade
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
+import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.DynamicUpdate
-import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity
@@ -23,9 +14,9 @@ class Customer(
     @Id @GeneratedValue @Column(name = "customer_id")
     var id: Long? = null,
     var contactNumber: String? = null,
-    var name: String? = contactNumber?.let { it.substring(it.length - 4) },
+    var name: String? = null,
 
-    @Convert(converter = YNToBooleanCOnverter::class)
+    @Convert(converter = YNToBooleanConverter::class)
     @Column(length = 1)
     var isActive: Boolean = true,
 
@@ -33,10 +24,22 @@ class Customer(
     var role: CustomerGrade = CustomerGrade.NORMAL,
 
     @CreationTimestamp
-    var registerDate: String = LocalDateTime.now().toString().replace('T', ' ').split(".")[0]
+    var registerDate: LocalDateTime = LocalDateTime.now()
 ) {
 
-    companion object YNToBooleanCOnverter : AttributeConverter<Boolean, String> {
+    init {
+       name = name ?: contactNumber?.let { it.substring(it.length - 4) }
+    }
+
+    fun updateCustomer(customer: CustomerRequestDTO.Update): Customer {
+        this.name ?: customer.name
+        this.role = customer.role
+        this.contactNumber = customer.contactNumber
+        this.isActive = this.isActive
+        return this
+    }
+
+    companion object YNToBooleanConverter : AttributeConverter<Boolean, String> {
         override fun convertToDatabaseColumn(attribute: Boolean): String {
             return if (attribute) "Y" else "N"
         }
@@ -45,10 +48,5 @@ class Customer(
             return dbData == "Y" || dbData == "y"
         }
     }
-
-    override fun toString(): String {
-        return "Customer(id=$id, contactNumber=$contactNumber, name=$name, isActive=$isActive, role=$role, registerDate=$registerDate)"
-    }
-
 
 }

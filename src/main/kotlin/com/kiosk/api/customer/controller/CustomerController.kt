@@ -24,12 +24,15 @@ class CustomerController(
     }
 
     @GetMapping("/customer")
-    fun findAllCustomer(): MutableList<Customer> {
-        return customerService.findAll()
-    }
+    fun findAllCustomer(): MutableList<Customer> = customerService.findAll()
 
     @GetMapping("/customer/{id}")
     fun findOneCustomer(@PathVariable("id") id: Long): ResponseDTO<CustomerResponseDTO> {
         return ResponseDTO(customerService.findOne(id), CustomerMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
+    }
+
+    @PatchMapping("/customer")
+    fun updateCustomer(@RequestBody customer: CustomerRequestDTO.Update): ResponseDTO<CustomerResponseDTO> {
+        return ResponseDTO(customerService.update(customer), CustomerMessage.SUCCESS_UPDATE, HttpStatus.OK)
     }
 }

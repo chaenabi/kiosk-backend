@@ -4,8 +4,11 @@ import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.repository.CustomerRepository
+import com.kiosk.exception.common.BizException
+import com.kiosk.exception.customer.CustomerCrudErrorCode
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
+import javax.transaction.Transactional
 
 @Service
 class CustomerService(
@@ -16,13 +19,18 @@ class CustomerService(
         return CustomerResponseDTO(savedCustomer)
     }
 
+    @Transactional(rollbackOn = [RuntimeException::class])
+    fun update(customer: CustomerRequestDTO.Update): CustomerResponseDTO {
+        val findCustomer = customer.id!!.let { findOneEntity(it) }
+        findCustomer.updateCustomer(customer)
+        return CustomerResponseDTO(findCustomer)
+    }
+
     fun findAll(): MutableList<Customer> = customerRepository.findAll()
 
-    fun findOne(id: Long): CustomerResponseDTO {
-        val findCustomer = customerRepository.findById(id)
-                    .orElseThrow { RuntimeException("사용자를 찾지 못했습니다") }
+    private fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
+        .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
 
-        return CustomerResponseDTO(findCustomer)
-
-    }
+    fun findOne(id: Long): CustomerResponseDTO = CustomerResponseDTO(customerRepository.findById(id)
+        .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) })
 }

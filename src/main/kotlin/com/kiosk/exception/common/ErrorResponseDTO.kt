@@ -1,12 +1,7 @@
 package com.kiosk.exception.common
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import org.springframework.http.HttpStatus
 import org.springframework.validation.Errors
 import org.springframework.validation.FieldError
@@ -14,14 +9,13 @@ import java.time.LocalDateTime
 import java.util.*
 
 class ErrorResponseDTO {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @JsonDeserialize(using = LocalDateTimeDeserializer::class)
-    @JsonSerialize(using = LocalDateTimeSerializer::class)
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("timestamp")
-    private var now: LocalDateTime? = null
+    private var now: String? = null
     private var message: String?
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("code")
     private var errorCode: Int?
 
@@ -34,7 +28,7 @@ class ErrorResponseDTO {
     private var customFieldErrors: List<CustomFieldError>
 
     private constructor(builder: ErrorResponseDTOBuilder) {
-        if (builder.displayNow) now = LocalDateTime.now()
+        if (builder.displayNow) now = LocalDateTime.now().toString().replace('T', ' ').split(".")[0]
         message = builder.message
         errorCode = builder.errorCode
         httpStatus = builder.httpStatus
@@ -89,7 +83,7 @@ class ErrorResponseDTO {
             for (fieldError in fieldErrors) {
                 customFieldErrors.add(
                     CustomFieldError(
-                        fieldError.codes?.get(0)?.split("\\.")?.toTypedArray()?.get(2),
+                        fieldError.codes?.get(0)?.split("\\.")!![2],
                         fieldError.rejectedValue,
                         fieldError.defaultMessage,
                         errorCode.findMatchBizCode(fieldError.defaultMessage)

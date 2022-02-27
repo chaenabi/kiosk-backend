@@ -1,11 +1,6 @@
 package com.kiosk.api.customer.domain.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.domain.enums.CustomerGrade
 import java.time.LocalDateTime
@@ -14,14 +9,15 @@ class CustomerResponseDTO {
 
     var id: Long? = null
 
-    lateinit var registerDate: String
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    lateinit var registerDate: LocalDateTime
     var contactNumber: String? = null
     var name: String? = null
     lateinit var role: CustomerGrade
 
     private constructor()
 
-    constructor(customer : Customer) {
+    constructor(customer: Customer) {
         this.id = customer.id
         this.registerDate = customer.registerDate
         this.contactNumber = customer.contactNumber
