@@ -12,13 +12,17 @@ enum class CustomerCrudErrorCode(
 ) : ErrorCode {
     CUSTOMER_CRUD_FAIL(BAD_REQUEST, -1, "회원 관련 처리 요청이 실패했습니다."),
     CUSTOMER_ID_IS_NULL(BAD_REQUEST, -2, "회원 번호가 반드시 전달되어야 합니다."),
-    CUSTOMER_ID_IS_EMPTY(BAD_REQUEST, -3, "회원 번호가 비어 있으면 안됩니다."),
-    CUSTOMER_NOT_FOUND(NOT_FOUND, -4, "해당 회원은 존재하지 않습니다.");
+    CUSTOMER_NOT_FOUND(NOT_FOUND, -3, "해당 회원은 존재하지 않습니다.");
+
+    companion object {
+        val msgMap = values().associateBy(CustomerCrudErrorCode::msg)
+    }
 
     override fun findMatchBizCode(failMessage: String?): Int {
-        val first = GeneralParameterErrorCode.msgMap
+        val first = msgMap
             .filter { it.value.msg == failMessage }
             .map { it.value.bizCode }
+        println(first)
         return if (first.isEmpty()) -999 else first[0]
     }
 }

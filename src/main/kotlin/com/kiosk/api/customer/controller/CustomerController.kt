@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@Validated
 @RequestMapping("/v1")
 class CustomerController(
     private val customerService: CustomerService
 ) {
     @PostMapping("/customer")
-    fun saveCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Register, result: BindingResult): ResponseDTO<CustomerResponseDTO> {
-        if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)
+    fun saveCustomer(@RequestBody customer: CustomerRequestDTO.Register): ResponseDTO<CustomerResponseDTO> {
         return ResponseDTO(customerService.register(customer), CustomerMessage.SUCCESS_REGISTER, HttpStatus.OK)
     }
 

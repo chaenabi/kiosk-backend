@@ -12,15 +12,13 @@ import org.springframework.http.ResponseEntity
 class GeneralControllerAdvice {
 
     companion object {
-        fun handleGeneralException(httpStatus: HttpStatus, e: Exception): ResponseEntity<ErrorResponseDTO> {
-            println("hello ${e.message}")
-            println("bye ${httpStatus.reasonPhrase}")
-
-            val response: ErrorResponseDTO = ErrorResponseDTO(
+        fun handleGeneralException(httpStatus: HttpStatus, e: Exception, internalCode: Int = -999): ResponseEntity<ErrorResponseDTO> {
+            val response= ErrorResponseDTO(
                 errorCode = httpStatus.value(),
                 httpStatus = httpStatus,
-                message = e.message ?: httpStatus.reasonPhrase)
-            println("--------------- 1 charlie ------------")
+                message = e.message ?: httpStatus.reasonPhrase,
+                internalCode = internalCode
+            )
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }
 
@@ -37,8 +35,8 @@ class GeneralControllerAdvice {
                 errorCode = httpStatus.value(),
                 httpStatus = httpStatus,
                 message = e.message,
+                internalCode = e.bizCode
             ).errors(e.errors, errorCode)
-            println("--------------- 2 charlie ------------")
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }
 

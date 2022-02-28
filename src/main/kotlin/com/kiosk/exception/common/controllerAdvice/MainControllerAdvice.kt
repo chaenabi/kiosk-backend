@@ -3,7 +3,11 @@ package com.kiosk.exception.common.controllerAdvice
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.common.ErrorResponseDTO
 import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleGeneralException
+import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleInvalidParameterException
+import com.kiosk.exception.customer.InvalidCustomerParameterException
 import org.slf4j.LoggerFactory
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -41,7 +45,7 @@ class MainControllerAdvice {
     fun catchIllegalArgumentException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponseDTO> {
         // 직접 메시지 커스텀
         val errorResponseDTO = ErrorResponseDTO(
-            message = "필수 항목이 모두 비어있습니다.",
+            message = "필수 항목이 모두 비어 있거나, 일부 항목이 잘못된 포맷으로 전달되었습니다.",
             httpStatus = HttpStatus.NOT_FOUND,
             errorCode = HttpStatus.NOT_FOUND.value()
         )
@@ -128,6 +132,14 @@ class MainControllerAdvice {
      */
     @ExceptionHandler(BizException::class)
     fun catchBizException(e: BizException): ResponseEntity<ErrorResponseDTO> {
-        return handleGeneralException(e.httpStatus, e)
+        return handleGeneralException(e.httpStatus, e, e.bizCode)
+    }
+
+    /**
+     * Customer에 대한 요청 정보에 담겨야 하는 parameter 검증 후 실패한 내역을 errors 필드에 실어 반환합니다.
+     */
+    @ExceptionHandler(InvalidCustomerParameterException::class)
+    fun handleInvalidPostParameterException(e: InvalidCustomerParameterException): ResponseEntity<ErrorResponseDTO> {
+        return handleInvalidParameterException(e.httpStatus, e.errorCode, e)
     }
 }
