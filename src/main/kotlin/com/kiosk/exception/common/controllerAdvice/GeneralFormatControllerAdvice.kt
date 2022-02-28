@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 
-class GeneralControllerAdvice {
+class GeneralFormatControllerAdvice {
 
     companion object {
-        fun handleGeneralException(httpStatus: HttpStatus, e: Exception, internalCode: Int = -999): ResponseEntity<ErrorResponseDTO> {
-            val response= ErrorResponseDTO(
+        fun handleGeneralException(httpStatus: HttpStatus, e: Exception, internalCode: Int? = null): ResponseEntity<ErrorResponseDTO> {
+            val response = ErrorResponseDTO(
                 errorCode = httpStatus.value(),
                 httpStatus = httpStatus,
                 message = e.message ?: httpStatus.reasonPhrase,
@@ -29,9 +29,9 @@ class GeneralControllerAdvice {
          * @param httpStatus 발생한 에러
          * @param e          @Valid 또는 @Validated 검증을 하는 익셉션 목록
          * @return ResponseEntity<ErrorResponseDTO>
-        </ErrorResponseDTO> */
+         */
         fun handleInvalidParameterException(httpStatus: HttpStatus, errorCode: ErrorCode, e: InvalidParameterException): ResponseEntity<ErrorResponseDTO> {
-            val response: ErrorResponseDTO = ErrorResponseDTO(
+            val response = ErrorResponseDTO(
                 errorCode = httpStatus.value(),
                 httpStatus = httpStatus,
                 message = e.message,

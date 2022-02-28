@@ -9,6 +9,7 @@ class ItemResponseDTO {
     lateinit var name: String
     var price: Int? = null
     var quantity: Int? = null
+    var image: String? = null
     lateinit var category: List<CategoryItem>
 
     private constructor()
@@ -18,6 +19,7 @@ class ItemResponseDTO {
         this.name = item.name
         this.price = item.price
         this.quantity = item.quantity
+        this.image = item.image
         this.category = item.category
     }
 

@@ -3,12 +3,9 @@ package com.kiosk.exception.common.controllerAdvice
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.common.ErrorResponseDTO
 import com.kiosk.exception.common.InvalidParameterException
-import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleGeneralException
-import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleInvalidParameterException
-import com.kiosk.exception.customer.InvalidCustomerParameterException
+import com.kiosk.exception.common.controllerAdvice.GeneralFormatControllerAdvice.Companion.handleGeneralException
+import com.kiosk.exception.common.controllerAdvice.GeneralFormatControllerAdvice.Companion.handleInvalidParameterException
 import org.slf4j.LoggerFactory
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -21,7 +18,7 @@ import org.springframework.web.servlet.NoHandlerFoundException
 import java.net.MalformedURLException
 
 @RestControllerAdvice
-class MainControllerAdvice {
+class DelegateControllerAdvice {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
