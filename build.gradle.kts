@@ -78,6 +78,10 @@ dependencies {
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("io.mockk:mockk:1.12.2")
     testImplementation("com.ninja-squad:springmockk:3.1.0")
+
+    // file upload
+    implementation("commons-fileupload:commons-fileupload:1.4")
+    implementation("commons-io:commons-io:2.11.0")
 }
 
 tasks.withType<KotlinCompile> {
