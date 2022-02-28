@@ -13,5 +13,5 @@ class Item(
     var quantity: Int,
 
     @OneToMany(mappedBy = "item")
-    var category: MutableList<CategoryItem>
+    var category: MutableList<CategoryItem> = arrayListOf()
 )
