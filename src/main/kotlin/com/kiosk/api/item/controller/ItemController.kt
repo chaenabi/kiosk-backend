@@ -38,4 +38,17 @@ class ItemController(
         return ResponseDTO(itemService.save(item, itemImages), CustomerMessage.SUCCESS_REGISTER, HttpStatus.OK)
     }
 
+    @PostMapping("/item-update")
+    fun updateItem(
+        @Valid @RequestPart(value = "data")
+        item: ItemRequestDTO.Update,
+        @RequestPart(value = "attachImages", required = false)
+        attachImages: MutableList<MultipartFile>? = null,
+        result: BindingResult,
+    ): ResponseDTO<ItemResponseDTO> {
+        if (result.hasErrors()) throw InvalidItemParameterException(result, ItemCrudErrorCode.ITEM_CRUD_FAIL)
+        itemImages = attachImages ?: Collections.emptyList()
+        return ResponseDTO(itemService.update(item, itemImages), CustomerMessage.SUCCESS_UPDATE, HttpStatus.OK)
+    }
+
 }

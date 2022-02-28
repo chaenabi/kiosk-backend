@@ -6,11 +6,10 @@ import javax.validation.constraints.NotNull
 
 class ItemRequestDTO {
 
-    data class Save @JsonIncludeProperties("name", "price", "quantity") constructor(
-        @field:NotNull(message = "상품 번호가 반드시 전달되어야 합니다.")
+    class Save @JsonIncludeProperties("name", "price", "quantity") constructor(
         val name: String,
-        var price: Int?,
-        var quantity: Int,
+        val price: Int?,
+        val quantity: Int,
     ) {
         fun toEntity(): Item {
             return Item(
@@ -20,4 +19,12 @@ class ItemRequestDTO {
             )
         }
     }
+
+    class Update(
+        @field:NotNull(message = "상품 번호가 반드시 전달되어야 합니다.")
+        val id: Long?,
+        val name: String,
+        val price: Int,
+        val quantity: Int,
+    )
 }
