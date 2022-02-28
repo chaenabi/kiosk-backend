@@ -37,4 +37,10 @@ class CustomerController(
         if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)
         return ResponseDTO(customerService.update(customer), CustomerMessage.SUCCESS_UPDATE, HttpStatus.OK)
     }
+
+    @DeleteMapping("/customer/{id}")
+    fun deleteOneCustomer(@PathVariable("id") id: Long): ResponseDTO<Unit> {
+        customerService.deleteOne(id)
+        return ResponseDTO(CustomerMessage.SUCCESS_DELETE_ONE, HttpStatus.OK)
+    }
 }

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus
 
 class ResponseDTO<T> {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     var data: T? = null
     val message: String
     val httpStatus: HttpStatus
