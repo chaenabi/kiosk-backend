@@ -2,6 +2,7 @@ package com.kiosk.exception.common.controllerAdvice
 
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.common.ErrorResponseDTO
+import com.kiosk.exception.common.InvalidParameterException
 import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleGeneralException
 import com.kiosk.exception.common.controllerAdvice.GeneralControllerAdvice.Companion.handleInvalidParameterException
 import com.kiosk.exception.customer.InvalidCustomerParameterException
@@ -136,10 +137,11 @@ class MainControllerAdvice {
     }
 
     /**
-     * Customer에 대한 요청 정보에 담겨야 하는 parameter 검증 후 실패한 내역을 errors 필드에 실어 반환합니다.
+     * 컨트롤러에 들어온 파라매터를 검증 후 실패한 내역을 errors 필드에 실어 반환합니다.
      */
-    @ExceptionHandler(InvalidCustomerParameterException::class)
-    fun handleInvalidPostParameterException(e: InvalidCustomerParameterException): ResponseEntity<ErrorResponseDTO> {
+    @ExceptionHandler(InvalidParameterException::class)
+    fun handleInvalidPostParameterException(e: InvalidParameterException): ResponseEntity<ErrorResponseDTO> {
         return handleInvalidParameterException(e.httpStatus, e.errorCode, e)
     }
+
 }

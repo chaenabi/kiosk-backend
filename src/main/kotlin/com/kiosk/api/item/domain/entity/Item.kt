@@ -11,6 +11,7 @@ class Item(
     var name: String,
     var price: Int,
     var quantity: Int,
+    var image: String? = null,
 
     @OneToMany(mappedBy = "item")
     var category: MutableList<CategoryItem> = arrayListOf()

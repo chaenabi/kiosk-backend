@@ -9,13 +9,15 @@ class ItemRequestDTO {
         @field:NotNull(message = "")
         val name: String,
         val price: Int = Int.MAX_VALUE,
-        val quantity: Int = 0
+        val quantity: Int = 0,
+        var image: String? = null
     ) {
         fun toEntity(): Item {
             return Item(
                 name = name,
                 price = price,
-                quantity = quantity
+                quantity = quantity,
+                image = image
             )
         }
     }
