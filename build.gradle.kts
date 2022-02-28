@@ -66,6 +66,9 @@ dependencies {
     implementation("com.querydsl:querydsl-jpa")
     kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 
+    // query tracker
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
+
     // databases
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")

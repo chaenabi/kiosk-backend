@@ -21,7 +21,7 @@ class CustomerService(
 
     @Transactional(rollbackOn = [RuntimeException::class])
     fun update(customer: CustomerRequestDTO.Update): CustomerResponseDTO {
-        val findCustomer = customer.id!!.let { findOneEntity(it) }
+        val findCustomer = findOneEntity(customer.id!!)
         findCustomer.updateCustomer(customer)
         return CustomerResponseDTO(findCustomer)
     }

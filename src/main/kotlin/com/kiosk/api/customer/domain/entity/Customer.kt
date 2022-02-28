@@ -18,10 +18,10 @@ class Customer(
 
     @Convert(converter = YNToBooleanConverter::class)
     @Column(length = 1)
-    var isActive: Boolean = true,
+    var isActive: Boolean? = true,
 
     @Enumerated(value = EnumType.STRING)
-    var role: CustomerGrade = CustomerGrade.NORMAL,
+    var role: CustomerGrade? = CustomerGrade.NORMAL,
 
     @CreationTimestamp
     var registerDate: LocalDateTime = LocalDateTime.now()
@@ -32,10 +32,10 @@ class Customer(
     }
 
     fun updateCustomer(customer: CustomerRequestDTO.Update): Customer {
-        this.name ?: customer.name
-        this.role = customer.role
-        this.contactNumber = customer.contactNumber
-        this.isActive = this.isActive
+        this.name = customer.name ?: this.name
+        this.role = customer.role ?: this.role
+        this.contactNumber = customer.contactNumber ?: this.contactNumber
+        this.isActive = this.isActive ?: this.isActive
         return this
     }
 

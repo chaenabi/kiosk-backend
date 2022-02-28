@@ -2,6 +2,7 @@ package com.kiosk.api.customer.domain.model
 
 import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.domain.enums.CustomerGrade
+import javax.validation.constraints.NotNull
 
 class CustomerRequestDTO {
 
@@ -22,28 +23,15 @@ class CustomerRequestDTO {
     }
 
     data class Update(
+        @field:NotNull(message = "ID 값이 반드시 전달되어야 합니다.")
         val id: Long?,
-        val contactNumber: String,
-        val name: String,
-        val role: CustomerGrade,
-        val isActive: Boolean
-    ) {
-        fun toEntity(): Customer {
-            return Customer(
-                id = id,
-                contactNumber = contactNumber,
-                name = name,
-                role = role,
-                isActive = isActive
-            )
-        }
-    }
+        val contactNumber: String?,
+        val name: String?,
+        val role: CustomerGrade?,
+        val isActive: Boolean?
+    )
 
     data class Delete(
         val id: Long
-    ) {
-        fun toEntity(): Customer {
-            return Customer(id = id)
-        }
-    }
+    )
 }

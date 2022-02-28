@@ -13,12 +13,14 @@ class GeneralControllerAdvice {
 
     companion object {
         fun handleGeneralException(httpStatus: HttpStatus, e: Exception): ResponseEntity<ErrorResponseDTO> {
-            val response: ErrorResponseDTO = ErrorResponseDTO.builder()
-                .errorCode(httpStatus.value())
-                .httpStatus(httpStatus)
-                .message(e.message ?: httpStatus.reasonPhrase)
-                .build()
+            println("hello ${e.message}")
+            println("bye ${httpStatus.reasonPhrase}")
 
+            val response: ErrorResponseDTO = ErrorResponseDTO(
+                errorCode = httpStatus.value(),
+                httpStatus = httpStatus,
+                message = e.message ?: httpStatus.reasonPhrase)
+            println("--------------- 1 charlie ------------")
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }
 
@@ -30,20 +32,13 @@ class GeneralControllerAdvice {
          * @param e          @Valid 또는 @Validated 검증을 하는 익셉션 목록
          * @return ResponseEntity<ErrorResponseDTO>
         </ErrorResponseDTO> */
-        fun handleValidParameterException(
-            httpStatus: HttpStatus,
-            errorCode: ErrorCode,
-            e: InvalidParameterException
-        ): ResponseEntity<ErrorResponseDTO> {
-            val response: ErrorResponseDTO = ErrorResponseDTO.builder()
-                .errorCode(httpStatus.value())
-                .httpStatus(httpStatus)
-                .message(e.message ?: httpStatus.toString())
-                .errors(
-                    e.errors ?: throw BizException(GeneralParameterErrorCode.INVALID_PARAMETER),
-                    errorCode
-                )
-                .build()
+        fun handleInvalidParameterException(httpStatus: HttpStatus, errorCode: ErrorCode, e: InvalidParameterException): ResponseEntity<ErrorResponseDTO> {
+            val response: ErrorResponseDTO = ErrorResponseDTO(
+                errorCode = httpStatus.value(),
+                httpStatus = httpStatus,
+                message = e.message,
+            ).errors(e.errors, errorCode)
+            println("--------------- 2 charlie ------------")
             return ResponseEntity<ErrorResponseDTO>(response, getHttpHeader(), httpStatus)
         }
 

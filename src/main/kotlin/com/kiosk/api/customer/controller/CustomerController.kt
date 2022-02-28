@@ -6,20 +6,23 @@ import com.kiosk.api.customer.domain.enums.CustomerMessage
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.service.CustomerService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpEntity
+import com.kiosk.exception.customer.CustomerCrudErrorCode
+import com.kiosk.exception.customer.InvalidCustomerParameterException
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
+@Validated
 @RequestMapping("/v1")
 class CustomerController(
     private val customerService: CustomerService
 ) {
     @PostMapping("/customer")
-    fun saveCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Register): ResponseDTO<CustomerResponseDTO> {
+    fun saveCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Register, result: BindingResult): ResponseDTO<CustomerResponseDTO> {
+        if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)
         return ResponseDTO(customerService.register(customer), CustomerMessage.SUCCESS_REGISTER, HttpStatus.OK)
     }
 
@@ -32,7 +35,8 @@ class CustomerController(
     }
 
     @PatchMapping("/customer")
-    fun updateCustomer(@RequestBody customer: CustomerRequestDTO.Update): ResponseDTO<CustomerResponseDTO> {
+    fun updateCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Update, result: BindingResult): ResponseDTO<CustomerResponseDTO> {
+        if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)
         return ResponseDTO(customerService.update(customer), CustomerMessage.SUCCESS_UPDATE, HttpStatus.OK)
     }
 }

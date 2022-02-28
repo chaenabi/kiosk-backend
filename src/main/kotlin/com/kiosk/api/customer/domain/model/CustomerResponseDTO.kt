@@ -22,7 +22,7 @@ class CustomerResponseDTO {
         this.registerDate = customer.registerDate
         this.contactNumber = customer.contactNumber
         this.name = customer.name
-        this.role = customer.role
+        this.role = customer.role!!
     }
 
     override fun toString(): String {

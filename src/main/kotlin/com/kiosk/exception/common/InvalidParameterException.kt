@@ -2,4 +2,4 @@ package com.kiosk.exception.common
 
 import org.springframework.validation.Errors
 
-abstract class InvalidParameterException(val code: ErrorCode, val errors: Errors) : BizException(code)
+abstract class InvalidParameterException(val errorCode: ErrorCode, val errors: Errors) : BizException(errorCode)

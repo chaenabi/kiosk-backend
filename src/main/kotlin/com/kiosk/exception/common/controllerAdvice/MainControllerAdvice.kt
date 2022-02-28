@@ -40,10 +40,11 @@ class MainControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun catchIllegalArgumentException(e: HttpMessageNotReadableException): ResponseEntity<ErrorResponseDTO> {
         // 직접 메시지 커스텀
-        val errorResponseDTO: ErrorResponseDTO = ErrorResponseDTO.builder()
-            .message("필수 항목이 모두 비어있습니다.")
-            .httpStatus(HttpStatus.NOT_FOUND)
-            .build()
+        val errorResponseDTO = ErrorResponseDTO(
+            message = "필수 항목이 모두 비어있습니다.",
+            httpStatus = HttpStatus.NOT_FOUND,
+            errorCode = HttpStatus.NOT_FOUND.value()
+        )
         log.error(e.message)
         return ResponseEntity<ErrorResponseDTO>(errorResponseDTO, HttpStatus.NOT_FOUND)
     }
