@@ -23,16 +23,19 @@ class ItemController(
     private val itemService: ItemService
 ) {
 
+    private lateinit var itemImages: MutableList<MultipartFile>
+
     @PostMapping("/item")
     fun saveItem(
         @Valid @RequestPart(value = "data")
         item: ItemRequestDTO.Save,
         @RequestPart(value = "attachImages", required = false)
-        attachImages: List<MultipartFile> = Collections.emptyList(),
+        attachImages: MutableList<MultipartFile>? = null,
         result: BindingResult,
     ): ResponseDTO<ItemResponseDTO> {
         if (result.hasErrors()) throw InvalidItemParameterException(result, ItemCrudErrorCode.ITEM_CRUD_FAIL)
-        return ResponseDTO(itemService.save(item, attachImages), CustomerMessage.SUCCESS_REGISTER, HttpStatus.OK)
+        itemImages = attachImages ?: Collections.emptyList()
+        return ResponseDTO(itemService.save(item, itemImages), CustomerMessage.SUCCESS_REGISTER, HttpStatus.OK)
     }
 
 }

@@ -19,11 +19,13 @@ class ItemService(
     val itemImageRepository: ItemImageRepository
 ) {
 
-    fun save(item: ItemRequestDTO.Save, images: List<MultipartFile>): ItemResponseDTO {
+    fun save(item: ItemRequestDTO.Save, images: List<MultipartFile>?): ItemResponseDTO {
         val savedItem = itemRepository.save(item.toEntity())
-        val images = itemImageManager.saveImageToDisk(images, savedItem)
-        itemImageRepository.saveAll(images)
-        return ItemResponseDTO(savedItem)
+        val uploadedImages = itemImageManager.saveImageToDisk(images!!, savedItem)
+        val savedImages = itemImageRepository.saveAll(uploadedImages)
+        return ItemResponseDTO(savedItem, savedImages)
     }
+
+
 
 }
