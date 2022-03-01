@@ -1,6 +1,5 @@
 package com.kiosk.api.item.domain.model
 
-import com.kiosk.api.category.domain.entity.CategoryItem
 import com.kiosk.api.item.domain.entity.Item
 import com.kiosk.api.item.domain.entity.ItemImage
 import org.springframework.data.domain.Page
@@ -13,7 +12,7 @@ class ItemResponseDTO {
     var price: Int? = null
     var quantity: Int? = null
     var images: MutableList<String> = mutableListOf()
-    lateinit var category: List<CategoryItem>
+    var category: MutableList<String> = mutableListOf()
 
     private constructor()
 
@@ -23,7 +22,8 @@ class ItemResponseDTO {
         this.price = item.price
         this.quantity = item.quantity
         itemImages.forEach { it.name?.let { name -> images.add(name) } }
-        this.category = item.category
+        //this.category = category
+        item.category.forEach { this.category.add(it.category.name) }
     }
 
     class Paging(selectedPageNumber: Int, selectedItems: Page<Item>) {

@@ -1,4 +1,4 @@
-package com.kiosk.api.item.enums
+package com.kiosk.api.item.domain.enums
 
 import com.kiosk.api.common.SuccessMessage
 

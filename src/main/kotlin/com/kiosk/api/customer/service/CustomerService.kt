@@ -6,13 +6,15 @@ import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.repository.CustomerRepository
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.customer.CustomerCrudErrorCode
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.RuntimeException
+import java.sql.SQLException
 
 
 @Service
-@Transactional(rollbackFor = [RuntimeException::class])
+@Transactional(rollbackFor = [RuntimeException::class, SQLException::class, EmptyResultDataAccessException::class])
 class CustomerService(
     val customerRepository: CustomerRepository
 ) {
@@ -28,17 +30,17 @@ class CustomerService(
         return CustomerResponseDTO(findCustomer)
     }
 
+    fun deleteOne(id: Long) {
+        customerRepository.delete(findOneEntity(id))
+    }
+
     @Transactional(readOnly = true)
     fun findAll(): MutableList<Customer> = customerRepository.findAll()
-
-    private fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
-        .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
 
     @Transactional(readOnly = true)
     fun findOne(id: Long): CustomerResponseDTO = CustomerResponseDTO(customerRepository.findById(id)
         .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) })
 
-    fun deleteOne(id: Long) {
-        customerRepository.delete(findOneEntity(id))
-    }
+    private fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
+        .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
 }

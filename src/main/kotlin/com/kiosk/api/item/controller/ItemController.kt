@@ -3,7 +3,7 @@ package com.kiosk.api.item.controller
 import com.kiosk.api.common.ResponseDTO
 import com.kiosk.api.item.domain.model.ItemRequestDTO
 import com.kiosk.api.item.domain.model.ItemResponseDTO
-import com.kiosk.api.item.enums.ItemMessage
+import com.kiosk.api.item.domain.enums.ItemMessage
 import com.kiosk.api.item.service.ItemService
 import com.kiosk.exception.item.InvalidItemParameterException
 import com.kiosk.exception.item.ItemCrudErrorCode
