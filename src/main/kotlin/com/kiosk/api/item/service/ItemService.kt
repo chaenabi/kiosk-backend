@@ -1,6 +1,5 @@
 package com.kiosk.api.item.service
 
-import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.item.domain.entity.Item
 import com.kiosk.api.item.domain.model.ItemRequestDTO
 import com.kiosk.api.item.domain.model.ItemResponseDTO
@@ -8,9 +7,11 @@ import com.kiosk.api.item.repository.ItemImageRepository
 import com.kiosk.api.item.repository.ItemRepository
 import com.kiosk.api.item.utils.ItemImageManager
 import com.kiosk.exception.common.BizException
-import com.kiosk.exception.customer.CustomerCrudErrorCode
 import com.kiosk.exception.item.ItemCrudErrorCode
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -42,6 +43,24 @@ class ItemService(
         itemImageRepository.saveAll(uploadedImages)
 
         return ItemResponseDTO(wantToUpdateItem, uploadedImages)
+    }
+
+    fun findItemPage(page: Int, pageSize: Int): ItemResponseDTO.Paging {
+        val pageNumber = if (page - 1 >= 0) page - 1 else throw BizException(ItemCrudErrorCode.ITEM_PAGE_NOT_FOUND)
+
+        val pageable: Pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"))
+        val responseDTO: ItemResponseDTO.Paging =
+            ItemResponseDTO.Paging(pageNumber, itemRepository.findItemAsPage(pageable))
+
+        if (responseDTO.totalPages < (page)) throw BizException(ItemCrudErrorCode.ITEM_PAGE_NOT_FOUND)
+
+        return responseDTO
+    }
+
+    fun delete(id: Long) {
+        val wantToDeleteItem = findOneEntity(id)
+        itemImageManager.deleteImageToDisk(wantToDeleteItem.images)
+        itemRepository.delete(wantToDeleteItem)
     }
 
     private fun findOneEntity(id: Long): Item = itemRepository.findById(id)

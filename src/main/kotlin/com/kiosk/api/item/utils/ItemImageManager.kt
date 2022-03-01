@@ -71,8 +71,8 @@ class ItemImageManager {
             files.add(
                 ItemImageDTO(
                     name = DEFAULT_UPLOAD_DIRECTORY
-                            + "/"
-                            + getBaseName(file.originalFilename)
+                            + "/" +
+                            getBaseName(file.originalFilename)
                             + "_"
                             + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
                             + "_"
@@ -84,5 +84,14 @@ class ItemImageManager {
             )
         })
         return files
+    }
+
+    fun deleteImageToDisk(images: MutableList<ItemImage>) {
+        for (image in images) {
+            val file = File(image.name!!)
+            println("file.exists(): ${file.exists()}")
+            if (file.exists()) file.delete()
+        }
+
     }
 }

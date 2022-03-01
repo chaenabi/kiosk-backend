@@ -1,24 +1,27 @@
 package com.kiosk.api.item.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.kiosk.api.category.domain.entity.CategoryItem
 import com.kiosk.api.item.domain.model.ItemRequestDTO
 import javax.persistence.*
 
 @Entity
 class Item(
-    @Id @GeneratedValue @Column(name = "item_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     var id: Long? = null,
 
     var name: String,
     var price: Int,
     var quantity: Int,
-    var image: String? = null,
 
     @OneToMany(mappedBy = "item")
+    @JsonIgnoreProperties("item")
     var category: MutableList<CategoryItem> = arrayListOf(),
 
-    @OneToMany(mappedBy = "item")
-    var itemImage: MutableList<ItemImage> = arrayListOf()
+    @OneToMany(mappedBy = "item", cascade = [CascadeType.REMOVE])
+    @JsonIgnoreProperties("item")
+    var images: MutableList<ItemImage> = arrayListOf()
 
 ) {
     fun updateItem(item: ItemRequestDTO.Update) {

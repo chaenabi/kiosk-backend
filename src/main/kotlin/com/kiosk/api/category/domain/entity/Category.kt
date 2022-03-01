@@ -10,6 +10,6 @@ class Category(
     var parentId: Long? = null,
     var name: String,
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     var items: MutableList<CategoryItem>
 )
