@@ -34,6 +34,11 @@ spring:
     restart:
       enabled: true
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
 logging:
   level:
     org.hibernate.SQL: debug

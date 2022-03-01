@@ -82,6 +82,9 @@ dependencies {
     // file upload
     implementation("commons-fileupload:commons-fileupload:1.4")
     implementation("commons-io:commons-io:2.11.0")
+
+    // swagger
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
 }
 
 tasks.withType<KotlinCompile> {
