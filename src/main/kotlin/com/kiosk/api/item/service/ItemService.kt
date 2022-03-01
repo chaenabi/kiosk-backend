@@ -63,7 +63,7 @@ class ItemService(
         itemRepository.delete(wantToDeleteItem)
     }
 
-    private fun findOneEntity(id: Long): Item = itemRepository.findById(id)
+    fun findOneEntity(id: Long): Item = itemRepository.findById(id)
         .orElseThrow { BizException(ItemCrudErrorCode.ITEM_NOT_FOUND) }
 
 }

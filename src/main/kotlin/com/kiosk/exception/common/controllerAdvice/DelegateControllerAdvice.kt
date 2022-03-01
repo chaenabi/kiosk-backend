@@ -6,6 +6,7 @@ import com.kiosk.exception.common.InvalidParameterException
 import com.kiosk.exception.common.controllerAdvice.GeneralFormatControllerAdvice.Companion.handleGeneralException
 import com.kiosk.exception.common.controllerAdvice.GeneralFormatControllerAdvice.Companion.handleInvalidParameterException
 import org.slf4j.LoggerFactory
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -16,6 +17,7 @@ import org.springframework.web.client.HttpServerErrorException.BadGateway
 import org.springframework.web.client.HttpServerErrorException.ServiceUnavailable
 import org.springframework.web.servlet.NoHandlerFoundException
 import java.net.MalformedURLException
+import java.sql.SQLIntegrityConstraintViolationException
 
 @RestControllerAdvice
 class DelegateControllerAdvice {
@@ -119,6 +121,16 @@ class DelegateControllerAdvice {
     @ExceptionHandler(ServiceUnavailable::class)
     protected fun handleServiceUnavailable(e: ServiceUnavailable): ResponseEntity<ErrorResponseDTO> {
         return handleGeneralException(HttpStatus.SERVICE_UNAVAILABLE, e)
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException::class, SQLIntegrityConstraintViolationException::class)
+    protected fun handleDataIntegrityViolation(): ResponseEntity<ErrorResponseDTO> {
+        val errorResponseDTO = ErrorResponseDTO(
+            message = "데이터베이스 제약조건 위반으로 인하여 데이터 처리가 실패하였습니다.",
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
+            errorCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
+        )
+        return ResponseEntity<ErrorResponseDTO>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     /**

@@ -30,13 +30,13 @@ class CategoryRequestDTO {
         @field:NotNull(message = "카테고리 번호가 반드시 전달되어야 합니다.")
         val categoryId: Long,
         @field:NotEmpty(message = "아이템 번호가 하나 이상 전달되어야 합니다.")
-        val items: List<Int>
+        val items: List<Long>
     )
 
     class DrawOffItems(
         @field:NotNull(message = "카테고리 번호가 반드시 전달되어야 합니다.")
         val categoryId: Long,
         @field:NotEmpty(message = "아이템 번호가 하나 이상 전달되어야 합니다.")
-        val items: List<Int>
+        val items: List<Long>
     )
 }

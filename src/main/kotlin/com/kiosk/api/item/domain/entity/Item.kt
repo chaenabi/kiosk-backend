@@ -1,6 +1,8 @@
 package com.kiosk.api.item.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.kiosk.api.category.domain.entity.CategoryItem
 import com.kiosk.api.item.domain.model.ItemRequestDTO
 import javax.persistence.*
@@ -16,7 +18,8 @@ class Item(
     var quantity: Int,
 
     @OneToMany(mappedBy = "item")
-    @JsonIgnoreProperties("item")
+    @JsonIgnoreProperties("category")
+    @JsonIgnore
     var category: MutableList<CategoryItem> = arrayListOf(),
 
     @OneToMany(mappedBy = "item", cascade = [CascadeType.REMOVE])

@@ -26,8 +26,13 @@ class CategoryController(
     }
 
     @GetMapping("/category/{id}")
-    fun findOneCategory(@PathVariable("id") id: Long): ResponseDTO<CategoryResponseDTO> {
+    fun findOneCategory(@PathVariable(value = "id") id: Long): ResponseDTO<CategoryResponseDTO> {
         return ResponseDTO(categoryService.findOne(id), CategoryMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
+    }
+
+    @GetMapping("/category/search")
+    fun findOneCategoryByName(@RequestParam(value = "name") name: String): ResponseDTO<CategoryResponseDTO> {
+        return ResponseDTO(categoryService.findItemsByCategoryName(name), CategoryMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }
 
     @GetMapping("/category")

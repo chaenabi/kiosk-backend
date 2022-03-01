@@ -3,7 +3,7 @@ package com.kiosk.api.category.domain.entity
 import com.kiosk.api.item.domain.entity.Item
 import java.io.Serializable
 
-class CategoryItemId(
-    var category: Category,
-    var item: Item
+data class CategoryItemId(
+    var category: Category? = null,
+    var item: Item? = null
 ): Serializable
