@@ -4,7 +4,7 @@ import com.kiosk.api.category.domain.entity.CategoryItem
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CategoryQueryDSLRepository {
+interface CategoryRepositorySupport {
     fun saveCategoryItem(categoryItem: CategoryItem)
     fun drawOffCategoryItem(categoryItem: CategoryItem)
 }

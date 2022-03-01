@@ -7,7 +7,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @Repository
-class CategoryQueryDSLRepositoryImpl : CategoryQueryDSLRepository {
+class CategoryRepositorySupportImpl : CategoryRepositorySupport {
 
     @PersistenceContext
     private lateinit var entityManager: EntityManager
