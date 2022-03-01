@@ -21,7 +21,7 @@ class CategoryRequestDTO {
 
     class Update(
         @field:NotNull(message = "카테고리 번호가 반드시 전달되어야 합니다.")
-        val categoryId: Long,
+        val id: Long,
         val parentId: Long?,
         val name: String?
     )

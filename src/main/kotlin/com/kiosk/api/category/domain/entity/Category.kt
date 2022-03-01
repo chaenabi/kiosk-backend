@@ -15,7 +15,7 @@ class Category(
     var items: MutableList<CategoryItem> = arrayListOf()
 ) {
     fun updateCategory(category: CategoryRequestDTO.Update) {
-        this.parentId = parentId
-        this.name = name
+        this.parentId = category.parentId
+        this.name = category.name!!
     }
 }

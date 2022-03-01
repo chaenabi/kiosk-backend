@@ -23,7 +23,7 @@ class CategoryService(
     }
 
     fun update(category: CategoryRequestDTO.Update) {
-        val wantToUpdateCategory = findOneEntity(category.categoryId)
+        val wantToUpdateCategory = findOneEntity(category.id)
         wantToUpdateCategory.updateCategory(category)
     }
 
