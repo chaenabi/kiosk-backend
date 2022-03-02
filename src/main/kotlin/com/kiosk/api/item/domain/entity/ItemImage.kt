@@ -10,7 +10,7 @@ class ItemImage(
     var name: String? = null,
     var path: String? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "item_id")
     var item: Item
 )

@@ -17,7 +17,7 @@ class Item(
     var price: Int,
     var quantity: Int,
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("category")
     @JsonIgnore
     var category: MutableList<CategoryItem> = arrayListOf(),
