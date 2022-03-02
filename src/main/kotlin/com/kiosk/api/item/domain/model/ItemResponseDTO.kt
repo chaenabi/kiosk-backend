@@ -92,7 +92,7 @@ class ItemResponseDTO {
 
                 images.forEach {
                     val file = File("${it.path}${it.name}")
-
+                    println(file.exists())
                     list.add(
                         ItemImageResponseDTO(
                         id = it.id,
