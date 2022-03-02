@@ -1,13 +1,10 @@
 package com.kiosk.api.constant.domain.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Constant(
-    @Id @GeneratedValue @Column(name = "constant_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "constant_id")
     var id: Long? = null,
 
     var maxOrderTime: Int

@@ -10,7 +10,7 @@ import javax.persistence.FetchType.LAZY
 @Entity
 @Table(name = "orders")
 class Order(
-    @Id @GeneratedValue @Column(name = "order_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "order_id")
     var id: Long? = null,
 
     @Enumerated(value = EnumType.STRING)

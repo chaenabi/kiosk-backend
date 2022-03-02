@@ -6,7 +6,7 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class OrderItem(
-    @Id @GeneratedValue @Column(name = "order_item_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "order_item_id")
     var id: Long,
 
     var orderPrice: Int,

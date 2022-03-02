@@ -11,7 +11,7 @@ import javax.persistence.*
 @Entity
 @DynamicUpdate
 class Customer(
-    @Id @GeneratedValue @Column(name = "customer_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "customer_id")
     var id: Long? = null,
     var contactNumber: String? = null,
     var name: String? = null,

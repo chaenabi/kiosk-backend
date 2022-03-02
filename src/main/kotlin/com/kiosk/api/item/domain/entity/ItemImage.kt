@@ -5,7 +5,7 @@ import javax.persistence.*
 @Entity
 class ItemImage(
 
-    @Id @GeneratedValue @Column(name = "item_image_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "item_image_id")
     var id: Long? = null,
     var name: String? = null,
     var path: String? = null,

@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 class Log(
-    @Id @GeneratedValue @Column(name = "log_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "log_id")
     var id: Long? = null,
 
     var content: String,

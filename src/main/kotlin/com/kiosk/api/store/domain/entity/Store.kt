@@ -8,7 +8,7 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class Store(
-    @Id @GeneratedValue @Column(name = "store_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "store_id")
     var id: Long? = null,
 
     var city: String,
