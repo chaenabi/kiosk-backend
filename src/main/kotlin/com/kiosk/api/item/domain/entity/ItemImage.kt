@@ -8,6 +8,7 @@ class ItemImage(
     @Id @GeneratedValue @Column(name = "item_image_id")
     var id: Long? = null,
     var name: String? = null,
+    var path: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "item_id")

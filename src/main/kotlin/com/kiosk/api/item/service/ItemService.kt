@@ -49,8 +49,7 @@ class ItemService(
         val pageNumber = if (page - 1 >= 0) page - 1 else throw BizException(ItemCrudErrorCode.ITEM_PAGE_NOT_FOUND)
 
         val pageable: Pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"))
-        val responseDTO: ItemResponseDTO.Paging =
-            ItemResponseDTO.Paging(pageNumber, itemRepository.findItemAsPage(pageable))
+        val responseDTO: ItemResponseDTO.Paging = ItemResponseDTO.Paging(pageNumber, itemRepository.findItemAsPage(pageable))
 
         if (responseDTO.totalPages < (page)) throw BizException(ItemCrudErrorCode.ITEM_PAGE_NOT_FOUND)
 

@@ -7,6 +7,7 @@ import com.kiosk.api.item.domain.enums.ItemMessage
 import com.kiosk.api.item.service.ItemService
 import com.kiosk.exception.item.InvalidItemParameterException
 import com.kiosk.exception.item.ItemCrudErrorCode
+import org.apache.commons.io.IOUtils
 import org.springframework.http.HttpStatus
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*

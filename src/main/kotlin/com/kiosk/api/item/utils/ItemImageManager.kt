@@ -15,11 +15,13 @@ import java.util.*
 import java.util.function.Consumer
 import org.apache.commons.io.FilenameUtils.getBaseName
 import org.apache.commons.io.FilenameUtils.getExtension
+import org.springframework.beans.factory.annotation.Value
 
 @Component
 class ItemImageManager {
 
-    private val DEFAULT_UPLOAD_DIRECTORY: String = "src/main/resources/upload"
+    @Value("\${default-upload-image-directory}")
+    private var directory: String? = null
 
     /**
      * 업로드 파일들을 지정된 경로에 모두 저장하고 첨부파일 목록을 반환하여
@@ -32,10 +34,10 @@ class ItemImageManager {
     fun saveImageToDisk(images: List<MultipartFile>, savedItem: Item): MutableList<ItemImage> {
         val files: List<ItemImageDTO> = renamefilename(images, savedItem)
         val result: MutableList<ItemImage> = ArrayList<ItemImage>()
-        val folder = File(DEFAULT_UPLOAD_DIRECTORY)
+        val folder = File(directory)
         if (!folder.exists()) {
             try {
-                Files.createDirectories(Paths.get(DEFAULT_UPLOAD_DIRECTORY))
+                Files.createDirectories(Paths.get(directory))
             } catch (e: IOException) {
                 throw RuntimeException("업로드 폴더를 생성할 수 없었습니다.", e)
             }
@@ -43,7 +45,7 @@ class ItemImageManager {
         val attachFileMeasure = images.size
         for (i in 0 until attachFileMeasure) {
             try {
-                images[i].transferTo(Paths.get(files[i].name))
+                images[i].transferTo(Paths.get(directory + files[i].name))
             } catch (e: IOException) {
                 throw RuntimeException(e.message)
             }
@@ -70,16 +72,15 @@ class ItemImageManager {
         images.forEach(Consumer { file: MultipartFile ->
             files.add(
                 ItemImageDTO(
-                    name = DEFAULT_UPLOAD_DIRECTORY
-                            + "/" +
-                            getBaseName(file.originalFilename)
+                    name = getBaseName(file.originalFilename)
                             + "_"
                             + now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
                             + "_"
                             + randomString
                             + "."
                             + getExtension(file.originalFilename),
-                    item = savedItem
+                    item = savedItem,
+                    path = directory
                 )
             )
         })
@@ -88,10 +89,8 @@ class ItemImageManager {
 
     fun deleteImageToDisk(images: MutableList<ItemImage>) {
         for (image in images) {
-            val file = File(image.name!!)
-            println("file.exists(): ${file.exists()}")
+            val file = File("$directory${image.name!!}")
             if (file.exists()) file.delete()
         }
-
     }
 }
