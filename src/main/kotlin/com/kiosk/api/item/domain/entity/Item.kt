@@ -14,6 +14,7 @@ class Item(
     var id: Long? = null,
 
     var name: String,
+    var detail: String,
     var price: Int,
     var quantity: Int,
 
@@ -28,8 +29,9 @@ class Item(
 
 ) {
     fun updateItem(item: ItemRequestDTO.Update) {
-        this.name = item.name
-        this.price = this.price
-        this.quantity = this.quantity
+        this.name = item.name ?: this.name
+        this.detail = item.detail ?: this.detail
+        this.price = item.price ?: this.price
+        this.quantity = item.quantity ?: this.quantity
     }
 }

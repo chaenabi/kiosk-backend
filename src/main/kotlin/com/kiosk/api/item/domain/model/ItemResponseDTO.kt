@@ -11,6 +11,7 @@ class ItemResponseDTO {
 
     var id: Long? = null
     lateinit var name: String
+    lateinit var detail: String
     var price: Int? = null
     var quantity: Int? = null
     var images: MutableList<ByteArray> = mutableListOf()
@@ -21,6 +22,7 @@ class ItemResponseDTO {
     constructor(item: Item, itemImages: MutableList<ItemImage>) {
         this.id = item.id
         this.name = item.name
+        this.detail = item.detail
         this.price = item.price
         this.quantity = item.quantity
         itemImages.forEach {
@@ -43,6 +45,7 @@ class ItemResponseDTO {
     class ReProcessing(
        val id: Long?,
        val itemName: String,
+       val detail: String,
        val price: Int,
        val quantity: Int,
        val images: List<ItemImageResponseDTO>
@@ -56,6 +59,7 @@ class ItemResponseDTO {
                         ReProcessing(
                         id = it.id,
                         itemName = it.name,
+                        detail = it.detail,
                         price = it.price,
                         quantity = it.quantity,
                         images = ItemImageResponseDTO.mapping(it.images)
@@ -68,6 +72,7 @@ class ItemResponseDTO {
                 return ReProcessing(
                     id = item.id,
                     itemName = item.name,
+                    detail = item.detail,
                     price = item.price,
                     quantity = item.quantity,
                     images = ItemImageResponseDTO.mapping(item.images)
