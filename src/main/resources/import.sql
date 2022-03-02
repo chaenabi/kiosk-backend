@@ -124,47 +124,47 @@ INSERT INTO category_item (category_id, item_id) VALUES (6, 40);
 INSERT INTO category_item (category_id, item_id) VALUES (6, 41);
 INSERT INTO category_item (category_id, item_id) VALUES (6, 42); -- 사이드메뉴 끝
 
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (1, '원조김밥_20220303064401_abcdefh.jpg', 'src/main/resources/upload/image/', 1);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (2, '원조김밥_20220303064401_abcdefh.jpg', 'src/main/resources/upload/image/', 2);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (3, '참치김밥_20220303064402_abcdefi.jpg', 'src/main/resources/upload/image/', 3);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (4, '치즈김밥_20220303064403_abcdefj.jpg', 'src/main/resources/upload/image/', 4);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (5, '땡초김밥_20220303064404_abcdefk.jpg', 'src/main/resources/upload/image/', 5);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (6, '샐러드김밥_20220303064405_abcdefl.jpg', 'src/main/resources/upload/image/', 6);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (1, '원조김밥_20220303064401_abcdefh.jpg', '~/spring/image/', 1);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (2, '원조김밥_20220303064401_abcdefh.jpg', '~/spring/image/', 2);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (3, '참치김밥_20220303064402_abcdefi.jpg', '~/spring/image/', 3);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (4, '치즈김밥_20220303064403_abcdefj.jpg', '~/spring/image/', 4);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (5, '땡초김밥_20220303064404_abcdefk.jpg', '~/spring/image/', 5);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (6, '샐러드김밥_20220303064405_abcdefl.jpg', '~/spring/image/', 6);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (7, '', '', 7);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (8, '', '', 8);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (9, '', '', 9);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (10, '', '', 10);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (11, '', '', 11);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (12, '', '', 12);  -- 김밥 끝
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (13, '돈까스_20220303064406_abcdefgm.png', 'src/main/resources/upload/image/', 13);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (13, '돈까스_20220303064406_abcdefgm.png', '~/spring/image/', 13);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (14, '', '', 14);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (15, '', '', 15);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (16, '돈까스_20220303064406_abcdefgm.png', 'src/main/resources/upload/image/', 16);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (16, '돈까스_20220303064406_abcdefgm.png', '~/spring/image/', 16);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (17, '', '', 17);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (18, '', '', 18);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (19, '', '', 19);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (20, '', '', 20);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (21, '', '', 21);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (22, '갈릭스테이크_20220303064405_abcdefg.jpg', 'src/main/resources/upload/image/', 22); -- 돈까스 끝
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (22, '갈릭스테이크_20220303064405_abcdefg.jpg', '~/spring/image/', 22); -- 돈까스 끝
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (23, '', '', 23);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (24, '바지락칼국수_20220303064408_abcdefo.gif', 'src/main/resources/upload/image/', 24);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (24, '바지락칼국수_20220303064408_abcdefo.gif', '~/spring/image/', 24);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (25, '', '', 25);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (26, '바지락칼국수_20220303064408_abcdefo.gif', 'src/main/resources/upload/image/', 26);  -- 분식 끝
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (27, '제육덮밥_20220303064407_abcdefn.png', 'src/main/resources/upload/image/', 27);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (28, '제육덮밥_20220303064407_abcdefn.png', 'src/main/resources/upload/image/', 28);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (26, '바지락칼국수_20220303064408_abcdefo.gif', '~/spring/image/', 26);  -- 분식 끝
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (27, '제육덮밥_20220303064407_abcdefn.png', '~/spring/image/', 27);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (28, '제육덮밥_20220303064407_abcdefn.png', '~/spring/image/', 28);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (29, '', '', 29);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (30, '제육덮밥_20220303064407_abcdefn.png', 'src/main/resources/upload/image/', 30);  -- 식사 끝
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (31, '콩나물국밥_20220303064410_abcdefq.jpg', 'src/main/resources/upload/image/', 31);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (32, '콩나물국밥_20220303064410_abcdefq.jpg', 'src/main/resources/upload/image/', 32);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (30, '제육덮밥_20220303064407_abcdefn.png', '~/spring/image/', 30);  -- 식사 끝
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (31, '콩나물국밥_20220303064410_abcdefq.jpg', '~/spring/image/', 31);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (32, '콩나물국밥_20220303064410_abcdefq.jpg', '~/spring/image/', 32);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (33, '', '', 33);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (34, '', '', 34);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (35, '', '', 35);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (36, '콩나물국밥_20220303064410_abcdefq.jpg', 'src/main/resources/upload/image/', 36);  -- 국밥 끝
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (37, '콜라_20220303064409_abcdefp.jpg', 'src/main/resources/upload/image/', 37);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (38, '콜라_20220303064409_abcdefp.jpg', 'src/main/resources/upload/image/', 38);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (39, '콜라_20220303064409_abcdefp.jpg', 'src/main/resources/upload/image/', 39);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (40, '콜라_20220303064409_abcdefp.jpg', 'src/main/resources/upload/image/', 40);
-INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (41, '콜라_20220303064409_abcdefp.jpg', 'src/main/resources/upload/image/', 41);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (36, '콩나물국밥_20220303064410_abcdefq.jpg', '~/spring/image/', 36);  -- 국밥 끝
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (37, '콜라_20220303064409_abcdefp.jpg', '~/spring/image/', 37);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (38, '콜라_20220303064409_abcdefp.jpg', '~/spring/image/', 38);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (39, '콜라_20220303064409_abcdefp.jpg', '~/spring/image/', 39);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (40, '콜라_20220303064409_abcdefp.jpg', '~/spring/image/', 40);
+INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (41, '콜라_20220303064409_abcdefp.jpg', '~/spring/image/', 41);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (42, '', '', 42);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (43, '', '', 43);
 INSERT INTO item_image (item_image_id, name, path, item_id) VALUES (44, '', '', 44); -- 사이드메뉴 끝
