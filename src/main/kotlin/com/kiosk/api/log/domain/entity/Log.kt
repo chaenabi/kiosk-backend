@@ -9,8 +9,8 @@ class Log(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "log_id")
     var id: Long? = null,
 
-    var content: String,
+    var content: String? = null,
 
     @CreationTimestamp
-    var createDate: LocalDateTime
+    var createDate: LocalDateTime = LocalDateTime.now()
 )

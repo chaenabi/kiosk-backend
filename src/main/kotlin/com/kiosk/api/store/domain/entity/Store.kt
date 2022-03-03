@@ -11,19 +11,19 @@ class Store(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "store_id")
     var id: Long? = null,
 
-    var city: String,
-    var street: String,
+    var city: String? = null,
+    var street: String? = null,
     @Column(length = 30)
-    var zipCode: String,
+    var zipCode: String? = null,
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20)
-    var status: StoreStatus,
+    var status: StoreStatus = StoreStatus.OPEN,
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "items")
-    var order: Order,
+    @JoinColumn(name = "items", insertable = false, updatable = false)
+    var order: Order? = null,
 
     @OneToOne(mappedBy = "store")
-    var admin: Admin
+    var admin: Admin? = null
 )
