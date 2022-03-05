@@ -1,6 +1,7 @@
 package com.kiosk.api.admin.domain.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.kiosk.api.admin.domain.model.AdminRequestDTO
 import com.kiosk.api.store.domain.entity.Store
 import javax.persistence.*
 
@@ -13,12 +14,15 @@ class Admin(
     var name: String? = null,
     var password: String? = null,
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "admin")
     @JsonIgnoreProperties("admin")
     var store: Store? = null
 ) {
-    override fun toString(): String {
-        return "Admin(id=$id, name='$name', password='$password', store=$store)"
+    fun updateAdmin(update: AdminRequestDTO.Update): Admin {
+        this.name = update.name ?: this.name
+        this.password = update.password ?: this.password
+        this.store = update.store ?: this.store
+        return this
     }
 }

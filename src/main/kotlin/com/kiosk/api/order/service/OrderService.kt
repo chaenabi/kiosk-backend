@@ -13,11 +13,13 @@ import com.kiosk.exception.common.BizException
 import com.kiosk.exception.customer.CustomerCrudErrorCode
 import com.kiosk.exception.item.ItemCrudErrorCode
 import com.kiosk.exception.order.OrderCrudErrorCode
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.SQLException
 
 @Service
-@Transactional(rollbackFor = [RuntimeException::class])
+@Transactional(rollbackFor = [RuntimeException::class, EmptyResultDataAccessException::class, SQLException::class])
 class OrderService(
     private val customerRepository: CustomerRepository,
     private val orderRepository: OrderRepository,

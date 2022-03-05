@@ -28,9 +28,9 @@ class Store(
     @JsonIgnoreProperties("store")
     var order: Order? = null,
 
-    @OneToOne(mappedBy = "store", fetch = LAZY)
+    @OneToMany(mappedBy = "store", fetch = LAZY)
     @JsonIgnoreProperties("store")
-    var admin: Admin? = null
+    var admins: MutableList<Admin> = arrayListOf()
 ) {
     fun updateStore(update: StoreRequestDTO.Update): Store {
         this.city = update.city ?: this.city

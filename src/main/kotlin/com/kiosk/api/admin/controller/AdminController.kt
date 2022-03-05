@@ -1,7 +1,8 @@
 package com.kiosk.api.admin.controller
 
-import com.kiosk.api.admin.domain.entity.Admin
 import com.kiosk.api.admin.domain.enums.AdminMessage
+import com.kiosk.api.admin.domain.model.AdminRequestDTO
+import com.kiosk.api.admin.domain.model.AdminResponseDTO
 import com.kiosk.api.admin.service.AdminService
 import com.kiosk.api.common.ResponseDTO
 import org.springframework.http.HttpStatus
@@ -17,7 +18,7 @@ class AdminController(
 ) {
 
     @GetMapping("/signIn")
-    fun signIn(@RequestBody request: Any): ResponseDTO<Admin> {
+    fun signIn(@RequestBody request: AdminRequestDTO.SignIn): ResponseDTO<AdminResponseDTO> {
         return ResponseDTO(adminService.signIn(request), AdminMessage.SUCCESS_SIGN_IN, HttpStatus.OK)
     }
 

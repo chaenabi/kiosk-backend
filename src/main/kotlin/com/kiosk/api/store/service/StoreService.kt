@@ -7,9 +7,13 @@ import com.kiosk.api.store.domain.model.StoreResponseDTO
 import com.kiosk.api.store.repository.StoreRepository
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.store.StoreCrudErrorCode
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.sql.SQLException
 
 @Service
+@Transactional(rollbackFor = [RuntimeException::class, EmptyResultDataAccessException::class, SQLException::class])
 class StoreService(
     val storeRepository: StoreRepository
 ) {
