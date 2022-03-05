@@ -25,10 +25,10 @@ class Order(
     @JoinColumn(name = "customer_id")
     var customer: Customer? = null,
 
-    @OneToOne(fetch = LAZY, orphanRemoval = true)
+    @OneToOne(fetch = LAZY)
     var store: Store? = null,
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = LAZY)
     var orderItems: MutableList<OrderItem> = arrayListOf()
 ) {
 

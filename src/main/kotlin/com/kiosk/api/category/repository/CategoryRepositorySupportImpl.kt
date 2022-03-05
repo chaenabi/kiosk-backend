@@ -11,7 +11,6 @@ class CategoryRepositorySupportImpl : CategoryRepositorySupport {
 
     @PersistenceContext
     private lateinit var entityManager: EntityManager
-    private lateinit var queryFactory: JPAQueryFactory
 
     override fun saveCategoryItem(categoryItem: CategoryItem) {
         entityManager.createNativeQuery(

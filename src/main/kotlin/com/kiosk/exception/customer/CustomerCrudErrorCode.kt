@@ -12,6 +12,7 @@ enum class CustomerCrudErrorCode(
 ) : ErrorCode {
     CUSTOMER_CRUD_FAIL(BAD_REQUEST, -1, "회원 관련 처리 요청이 실패했습니다."),
     CUSTOMER_ID_IS_NULL(BAD_REQUEST, -2, "회원 번호가 반드시 전달되어야 합니다."),
+    CUSTOMER_NAME_IS_NULL(BAD_REQUEST, -2, "회원 이름이 반드시 전달되어야 합니다."),
     CUSTOMER_NOT_FOUND(NOT_FOUND, -3, "해당 회원은 존재하지 않습니다.");
 
     companion object {

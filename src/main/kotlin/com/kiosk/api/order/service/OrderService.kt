@@ -7,6 +7,7 @@ import com.kiosk.api.item.repository.ItemRepository
 import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.order.domain.entity.OrderItem
 import com.kiosk.api.order.domain.model.OrderRequestDTO
+import com.kiosk.api.order.domain.model.OrderResponseDTO
 import com.kiosk.api.order.repository.OrderRepository
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.customer.CustomerCrudErrorCode
@@ -22,7 +23,7 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val itemRepository: ItemRepository
 ) {
-    fun order(customerId: Long, itemId: Long, count: Int): Order {
+    fun order(customerId: Long, itemId: Long, count: Int): OrderResponseDTO {
         val customer: Customer = customerRepository.findById(customerId)
             .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
         val item: Item = itemRepository.findById(itemId)
@@ -31,9 +32,8 @@ class OrderService(
         val orderItem: OrderItem = OrderItem.createOrderItem(item, item.price, count)
         val order: Order = Order.createOrder(customer, orderItem)
         orderRepository.save(order)
-        val totalPrice = order.getTotalPrice()
 
-        return order //( + totalPrice)
+        return OrderResponseDTO(order, customer)
     }
 
     fun cancelOrder(orderId: Long) {
@@ -43,8 +43,11 @@ class OrderService(
         order.cancel()
     }
 
-    fun searchOrdersByCustomerName(orderSearch: OrderRequestDTO.OrderSearch) {
-        return orderRepository.findOrdersByCustomerName(orderSearch)
+    fun searchOrdersByCustomerName(orderSearch: OrderRequestDTO.SearchOrdersByName): OrderResponseDTO.SearchOrdersByName {
+        customerRepository.findByName(orderSearch.customerName)
+            .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
+        val findOrders = orderRepository.findOrdersByCustomerName(orderSearch)
+        return OrderResponseDTO.SearchOrdersByName().mapping(findOrders)
     }
 
 
