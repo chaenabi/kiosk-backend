@@ -2,6 +2,7 @@ package com.kiosk.api.customer.domain.entity
 
 import com.kiosk.api.customer.domain.enums.CustomerGrade
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
+import com.kiosk.api.order.domain.entity.Order
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.annotation.CreatedDate
@@ -24,7 +25,10 @@ class Customer(
     var role: CustomerGrade? = CustomerGrade.NORMAL,
 
     @CreationTimestamp
-    var registerDate: LocalDateTime = LocalDateTime.now()
+    var registerDate: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "customer")
+    var orders: MutableList<Order> = arrayListOf()
 ) {
 
     init {

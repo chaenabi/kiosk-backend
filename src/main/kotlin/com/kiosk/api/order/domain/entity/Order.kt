@@ -16,18 +16,52 @@ class Order(
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 16)
-    var status: OrderStatus,
+    var status: OrderStatus = OrderStatus.COMPLETE,
 
     @CreationTimestamp
     var orderDate: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id")
     var customer: Customer? = null,
 
-    @OneToOne(mappedBy = "order", fetch = LAZY, orphanRemoval = true)
+    @OneToOne(fetch = LAZY, orphanRemoval = true)
     var store: Store? = null,
 
     @OneToMany(mappedBy = "order", orphanRemoval = true)
-    var orders: MutableList<OrderItem> = arrayListOf()
-)
+    var orderItems: MutableList<OrderItem> = arrayListOf()
+) {
+
+    companion object {
+        fun createOrder(customer: Customer, vararg orderItems: OrderItem): Order {
+            val order = Order()
+            order.customer = customer
+            for (orderItem in orderItems) {
+                order.addOrderItem(orderItem)
+            }
+            //order.status = OrderStatus.WAIT
+            return order
+        }
+    }
+
+    private fun addOrderItem(orderItem: OrderItem) {
+        orderItems.add(orderItem)
+        orderItem.order = this
+    }
+
+    fun cancel() {
+        this.status = OrderStatus.CANCEL
+        for (orderItem in orderItems) {
+            orderItem.cancel()
+        }
+    }
+
+    // 전체 주문 가격 조회
+    fun getTotalPrice(): Int {
+        var totalPrice = 0
+        for (orderItem in orderItems) {
+            totalPrice += orderItem.getTotalPrice()
+        }
+        return totalPrice
+    }
+}

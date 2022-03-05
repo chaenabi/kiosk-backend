@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.kiosk.api.category.domain.entity.CategoryItem
 import com.kiosk.api.item.domain.model.ItemRequestDTO
+import com.kiosk.exception.common.BizException
+import com.kiosk.exception.item.ItemCrudErrorCode
 import javax.persistence.*
 
 @Entity
@@ -33,5 +35,17 @@ class Item(
         this.detail = item.detail ?: this.detail
         this.price = item.price ?: this.price
         this.quantity = item.quantity ?: this.quantity
+    }
+
+    fun addQuantity(quantity: Int) {
+        this.quantity += quantity
+    }
+
+    fun substractQuantity(quantity: Int) {
+        val restQuantity = this.quantity - quantity
+        if (restQuantity < 0) {
+            throw BizException(ItemCrudErrorCode.ITEM_NOT_INSUFFICIENT)
+        }
+        this.quantity = restQuantity
     }
 }

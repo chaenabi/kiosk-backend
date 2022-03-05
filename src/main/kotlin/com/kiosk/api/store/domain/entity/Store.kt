@@ -20,10 +20,9 @@ class Store(
     @Column(length = 20)
     var status: StoreStatus = StoreStatus.OPEN,
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "items", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "store", fetch = LAZY)
     var order: Order? = null,
 
-    @OneToOne(mappedBy = "store")
+    @OneToOne(mappedBy = "store", fetch = LAZY)
     var admin: Admin? = null
 )

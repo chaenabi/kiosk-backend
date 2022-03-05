@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("v1")
+@RequestMapping("/v1")
 class CategoryController(
     private val categoryService: CategoryService
 ) {
