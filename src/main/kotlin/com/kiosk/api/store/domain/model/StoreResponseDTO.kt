@@ -50,9 +50,9 @@ class StoreResponseDTO {
 
      class FindRevenue(
          private val foundRevenue: Store,
-         _totalPrice: Int
+         private val _totalPrice: List<Int>
     ) {
          val storeName: String? = foundRevenue.name
-         val totalPrice: Int = _totalPrice
+         val totalPrices: List<Int> = _totalPrice
     }
 }

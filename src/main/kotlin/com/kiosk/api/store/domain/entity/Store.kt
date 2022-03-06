@@ -6,6 +6,7 @@ import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.enums.StoreStatus
 import com.kiosk.api.store.domain.model.StoreRequestDTO
 import javax.persistence.*
+import javax.persistence.CascadeType.*
 import javax.persistence.FetchType.LAZY
 
 @Entity
@@ -25,9 +26,9 @@ class Store(
     @Column(length = 20)
     var status: StoreStatus = StoreStatus.AWAIT,
 
-    @OneToOne(mappedBy = "store", fetch = LAZY)
+    @OneToMany(mappedBy = "store", fetch = LAZY, orphanRemoval = true)
     @JsonIgnoreProperties("store")
-    var order: Order? = null,
+    var order: MutableList<Order> = arrayListOf(),
 
     @OneToMany(mappedBy = "store", fetch = LAZY)
     @JsonIgnoreProperties("store")

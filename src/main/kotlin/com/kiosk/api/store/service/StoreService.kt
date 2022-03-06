@@ -1,10 +1,8 @@
 package com.kiosk.api.store.service
 
-import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.service.CustomerService
 import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.entity.Store
-import com.kiosk.api.store.domain.enums.StoreStatus
 import com.kiosk.api.store.domain.model.StoreRequestDTO
 import com.kiosk.api.store.domain.model.StoreResponseDTO
 import com.kiosk.api.store.repository.StoreRepository
@@ -27,7 +25,7 @@ class StoreService(
     }
 
     fun updateStore(update: StoreRequestDTO.Update): StoreResponseDTO.Update {
-        val store = findOneEntityById(update.id!!)
+        val store = findOneEntityById(update.id)
         return StoreResponseDTO.Update(store.updateStore(update))
     }
 
@@ -49,9 +47,13 @@ class StoreService(
     fun getAndStoreRevenueByPeriod(period: StoreRequestDTO.SearchRevenueByPeriod): StoreResponseDTO.FindRevenue {
         val findStore: Store? = storeRepository.findOrderPeriodbyStoreId(period)
         findStore ?: throw BizException(StoreCrudErrorCode.STORE_NOT_FOUND)
-        val totalPrice: Int? = findStore.order?.getTotalPrice()
+        val totalPrices: MutableList<Int> = arrayListOf()
+        val orders = findStore.order
+        for (order in orders) {
+            totalPrices.add(order.getTotalPrice())
+        }
 
-        return StoreResponseDTO.FindRevenue(findStore, totalPrice ?: -1)
+        return StoreResponseDTO.FindRevenue(findStore, totalPrices)
     }
 
     // 특정 고객이 한 지점에서 주문한 전체 내역 조회

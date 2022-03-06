@@ -41,7 +41,7 @@ class AdminRequestDTO {
 
     class Update(
         @field:Positive(message = "관리자 번호가 반드시 전달되어야 합니다.")
-        val id: Long,
+        val adminId: Long,
         val name: String?,
         val password: String?,
         val storeId: Long?
@@ -50,6 +50,5 @@ class AdminRequestDTO {
             set(value) {
                 field = value
             }
-
     }
 }

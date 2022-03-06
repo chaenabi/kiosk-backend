@@ -32,11 +32,11 @@ class AdminService(
         if (adminRepository.findByName(request.name!!) != null) throw BizException(AdminCrudErrorCode.ADMIN_NAME_DUPLICATE)
         val store = storeRepository.findByName(request.storeName!!)
             .orElseThrow { BizException(StoreCrudErrorCode.STORE_NOT_FOUND) }
-        return AdminResponseDTO(adminRepository.save(request.toEntity(store)))
+        return AdminResponseDTO(adminRepository.save(request.toEntity(store)), store)
     }
 
     fun updateAdmin(request: AdminRequestDTO.Update): AdminResponseDTO {
-        val findAdmin = adminRepository.findById(request.id)
+        val findAdmin = adminRepository.findById(request.adminId)
             .orElseThrow { BizException(AdminCrudErrorCode.ADMIN_NOT_FOUND) }
         if (request.storeId != null) {
             val findStore = storeRepository.findById(request.storeId)

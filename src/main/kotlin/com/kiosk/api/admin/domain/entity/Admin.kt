@@ -26,8 +26,4 @@ class Admin(
         this.store = update.store ?: this.store
         return this
     }
-
-    override fun toString(): String {
-        return "Admin(id=$id, name=$name, password=$password)"
-    }
 }

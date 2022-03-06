@@ -6,6 +6,7 @@ import com.kiosk.api.store.domain.entity.Store
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
+import javax.persistence.FetchType.EAGER
 import javax.persistence.FetchType.LAZY
 
 @Entity
@@ -25,11 +26,11 @@ class Order(
     @JoinColumn(name = "customer_id")
     var customer: Customer? = null,
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     var store: Store? = null,
 
-    @OneToMany(mappedBy = "order", fetch = LAZY)
+    @OneToMany(mappedBy = "order")
     var orderItems: MutableList<OrderItem> = arrayListOf()
 ) {
 
@@ -50,10 +51,12 @@ class Order(
         orderItem.order = this
     }
 
-    fun cancel() {
+    fun cancel(orderId: Long) {
         this.status = OrderStatus.CANCEL
         for (orderItem in orderItems) {
-            orderItem.cancel()
+            if (orderId == orderItem.order!!.id) {
+                orderItem.cancel()
+            }
         }
     }
 

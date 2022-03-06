@@ -16,7 +16,9 @@ enum class OrderCrudErrorCode(
     ORDER_CRUD_FAIL(BAD_REQUEST, -1, "주문 관련 처리 요청이 실패했습니다."),
     ORDER_ID_IS_NULL(BAD_REQUEST, -2, "주문 번호가 반드시 전달되어야 합니다."),
     ORDER_NOT_FOUND(NOT_FOUND, -3, "해당 주문 번호는 존재하지 않습니다."),
-    ORDER_ITEM_COUNT_IS_ZERO_OR_NEGATIVE(BAD_REQUEST, -4, "주문을 하려면 한 개 이상의 상품 갯수 요청이 필요합니다.");
+    ORDER_ITEM_COUNT_IS_ZERO_OR_NEGATIVE(BAD_REQUEST, -4, "주문을 하려면 한 개 이상의 상품 갯수 요청이 필요합니다."),
+    ORDER_ALREADY_CANCEL(BAD_REQUEST, -5, "이미 취소된 주문입니다."),
+    ORDER_ITEM_IS_EMPTY(BAD_REQUEST, -6, "한 개 이상의 상품을 구매한 적이 없는 주문 내역입니다. 비정상적인 주문에 해당됩니다.");
 
     @Value("\${default-not-matched-biz-code}")
     var notMatched: Int = -999
