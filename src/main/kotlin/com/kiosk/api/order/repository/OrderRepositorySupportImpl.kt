@@ -1,6 +1,8 @@
 package com.kiosk.api.order.repository
 
 import com.kiosk.api.customer.domain.entity.QCustomer
+import com.kiosk.api.customer.domain.model.CustomerRequestDTO
+import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.order.domain.entity.QOrder
 import com.kiosk.api.order.domain.model.OrderRequestDTO
@@ -17,11 +19,10 @@ class OrderRepositorySupportImpl : OrderRepositorySupport {
     private lateinit var entityManager: EntityManager
     private lateinit var queryFactory: JPAQueryFactory
 
-    override fun findOrdersByCustomerName(orderSearch: OrderRequestDTO.SearchOrdersByName): List<Order> {
+    override fun findOrdersByCustomerName(orderSearch: CustomerRequestDTO.SearchOrdersByNameAndPeriod): List<Order> {
         queryFactory = JPAQueryFactory(entityManager)
         val qOrder: QOrder = QOrder.order
         val qCustomer: QCustomer = QCustomer.customer
-        val booleanBuilder: BooleanBuilder
 
         return queryFactory.select(qOrder)
             .from(qOrder)
