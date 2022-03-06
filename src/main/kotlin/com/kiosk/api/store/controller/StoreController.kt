@@ -35,7 +35,7 @@ class StoreController(
     // 한 지점의 특정 기간내 매출 검색
     @GetMapping("/store/revenue")
     fun getAnStoreRevenueByPeriod(@RequestBody period: Any) {
-
+        // TODO: Implements
     }
 
     @PostMapping("/store")

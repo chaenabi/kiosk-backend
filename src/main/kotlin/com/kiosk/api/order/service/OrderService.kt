@@ -25,7 +25,7 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val itemRepository: ItemRepository
 ) {
-    fun order(addOrder: OrderRequestDTO.AddOrder): OrderResponseDTO {
+    fun createOrder(addOrder: OrderRequestDTO.AddOrder): OrderResponseDTO {
         val customer: Customer = customerRepository.findById(addOrder.customerId)
             .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
         val item: Item = itemRepository.findById(addOrder.itemId)
