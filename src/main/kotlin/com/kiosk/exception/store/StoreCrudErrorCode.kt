@@ -16,7 +16,9 @@ enum class StoreCrudErrorCode(
     STORE_ID_IS_NULL(BAD_REQUEST, -2, "지점 번호가 반드시 전달되어야 합니다."),
     STORE_OWNER_IS_NULL(BAD_REQUEST, -3, "지점 주인 이름 정보는 필수입니다."),
     STORE_NOT_FOUND(NOT_FOUND, -4, "해당 지점은 존재하지 않습니다."),
-    STORE_NAME_IS_NULL(BAD_REQUEST, -5, "지점 이름 정보가 반드시 필요합니다.");
+    STORE_NAME_IS_NULL(BAD_REQUEST, -5, "지점 이름 정보가 반드시 필요합니다."),
+    STORE_REVENUE_START_DATE_INVALID(BAD_REQUEST, -6, "지점 매출 집계 시 시작 날짜는 반드시 현재 날짜보다 이전이어야 합니다."),
+    STORE_REVENUE_END_DATE_INVALID(BAD_REQUEST, -7, "지점 매출 집계 시 종료 날짜를 반드시 입력해주셔야 합니다.");
 
     companion object {
         val msgMap = values().associateBy(StoreCrudErrorCode::msg)

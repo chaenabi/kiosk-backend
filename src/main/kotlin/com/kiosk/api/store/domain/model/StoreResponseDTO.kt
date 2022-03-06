@@ -3,24 +3,17 @@ package com.kiosk.api.store.domain.model
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.enums.StoreStatus
 
-class StoreResponseDTO(store: Store) {
+class StoreResponseDTO {
 
-    var id: Long? = null
-    var owner: String? = null
-    var city: String? = null
-    var street: String? = null
-    var zipCode: String? = null
-    var status: StoreStatus? = null
-    var name: String? = null
 
-    init {
-        this.id = store.id
-        this.owner = store.owner
-        this.city = store.city
-        this.street = store.street
-        this.zipCode = store.zipCode
-        this.status = store.status
-        this.name = store.name
+    data class FindOne(val store: Store) {
+        var id: Long? = store.id
+        var owner: String? = store.owner
+        var city: String? = store.city
+        var street: String? = store.street
+        var zipCode: String? = store.zipCode
+        var status: StoreStatus? = store.status
+        var name: String? = store.name
     }
 
     data class Register(val registeredStore: Store) {
@@ -46,12 +39,19 @@ class StoreResponseDTO(store: Store) {
     data class FindAll(val foundAllStores: List<Store>) {
         val stores = mapping(foundAllStores)
 
-        private fun mapping(foundAllStores: List<Store>): List<StoreResponseDTO> {
-            val list: MutableList<StoreResponseDTO> = arrayListOf()
+        private fun mapping(foundAllStores: List<Store>): List<FindOne> {
+            val list: MutableList<FindOne> = arrayListOf()
             for (foundStore in foundAllStores) {
-                list.add(StoreResponseDTO(foundStore))
+                list.add(FindOne(foundStore))
             }
             return list
         }
+    }
+
+    data class FindRevenue(
+        val foundRevenue: List<Store>
+    ) {
+        val totalPrice: Int
+        val name: String
     }
 }

@@ -8,5 +8,6 @@ enum class StoreMessage(override val msg: String): SuccessMessage {
     SUCCESS_UPDATE("지점 정보 수정에 성공했습니다."),
     SUCCESS_FIND_ONE("지점 단건 조회에 성공했습니다."),
     SUCCESS_FIND_ALL("지점 목록이 잘 조회되었습니다."),
-    SUCCESS_DELETE_ONE("지점 삭제에 성공했습니다.");
+    SUCCESS_DELETE_ONE("지점 삭제에 성공했습니다."),
+    SUCCESS_FIND_REVENUE("매출 기간 집계 조회에 성공했습니다.");
 }

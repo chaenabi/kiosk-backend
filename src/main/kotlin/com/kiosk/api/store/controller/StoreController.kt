@@ -10,6 +10,7 @@ import com.kiosk.exception.store.StoreCrudErrorCode
 import org.springframework.http.HttpStatus
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/v1")
@@ -23,19 +24,20 @@ class StoreController(
     }
 
     @GetMapping("/store/{id}")
-    fun findStoreById(@PathVariable("id") id: Long): ResponseDTO<StoreResponseDTO> {
+    fun findStoreById(@PathVariable("id") id: Long): ResponseDTO<StoreResponseDTO.FindOne> {
         return ResponseDTO(storeService.findOneStoreById(id), StoreMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }
 
     @GetMapping("store")
-    fun findStoreByName(@RequestParam(value = "name") name: String): ResponseDTO<StoreResponseDTO> {
+    fun findStoreByName(@RequestParam(value = "name") name: String): ResponseDTO<StoreResponseDTO.FindOne> {
         return ResponseDTO(storeService.findOneStoreByName(name), StoreMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }
 
     // 한 지점의 특정 기간내 매출 검색
     @GetMapping("/store/revenue")
-    fun getAnStoreRevenueByPeriod(@RequestBody period: Any) {
-        // TODO: Implements
+    fun getAnStoreRevenueByPeriod(@Valid @RequestBody period: StoreRequestDTO.SearchRevenueByPeriod, result: BindingResult): ResponseDTO<StoreResponseDTO.FindRevenue> {
+        if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
+        return ResponseDTO(storeService.getAndStoreRevenueByPeriod(period), StoreMessage.SUCCESS_FIND_REVENUE, HttpStatus.OK)
     }
 
     @PostMapping("/store")
