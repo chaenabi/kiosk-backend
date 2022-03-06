@@ -48,10 +48,11 @@ class StoreResponseDTO {
         }
     }
 
-    data class FindRevenue(
-        val foundRevenue: List<Store>
+     class FindRevenue(
+         private val foundRevenue: Store,
+         _totalPrice: Int
     ) {
-        val totalPrice: Int
-        val name: String
+         val storeName: String? = foundRevenue.name
+         val totalPrice: Int = _totalPrice
     }
 }

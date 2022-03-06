@@ -42,9 +42,11 @@ class StoreService(
     }
 
     fun getAndStoreRevenueByPeriod(period: StoreRequestDTO.SearchRevenueByPeriod): StoreResponseDTO.FindRevenue {
+        val findStore: Store? = storeRepository.findOrderPeriodbyStoreId(period)
+        findStore ?: throw BizException(StoreCrudErrorCode.STORE_NOT_FOUND)
+        val totalPrice: Int? = findStore.order?.getTotalPrice()
 
-
-        return StoreResponseDTO.FindRevenue()
+        return StoreResponseDTO.FindRevenue(findStore, totalPrice ?: -1)
     }
 
     fun findAllStores(): StoreResponseDTO.FindAll {

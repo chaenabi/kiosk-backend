@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface StoreRepository : JpaRepository<Store, Long> {
+interface StoreRepository : JpaRepository<Store, Long>, StoreRepositorySupport {
     fun findByName(name: String): Optional<Store>
 }
