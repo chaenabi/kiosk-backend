@@ -45,7 +45,8 @@ class CustomerService(
     fun findOne(id: Long): CustomerResponseDTO = CustomerResponseDTO(customerRepository.findById(id)
         .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) })
 
-    private fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
+    @Transactional(readOnly = true)
+    fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
         .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
 
     // 한 회원의 기간별 주문내역 조회

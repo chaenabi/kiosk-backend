@@ -45,3 +45,4 @@ logging:
     org.hibernate.SQL: debug
 
 default-upload-image-directory: src/main/resources/upload/image/
+default-not-matched-biz-code: -999

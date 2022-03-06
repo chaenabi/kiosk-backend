@@ -50,4 +50,11 @@ class StoreRequestDTO {
         @field:NotBlank(message = "지점 매출 집계 시 종료 날짜를 반드시 입력해주셔야 합니다.")
         val endDate: LocalDateTime,
     )
+
+    data class SearchOrdersOfAnCustomerInTheStore(
+        @field:Positive(message = "회원 번호가 반드시 전달되어야 합니다.")
+        val customerId: Long,
+        @field:Positive(message = "지점 번호가 반드시 전달되어야 합니다.")
+        val storeId: Long,
+    )
 }

@@ -1,5 +1,8 @@
 package com.kiosk.api.store.service
 
+import com.kiosk.api.customer.domain.entity.Customer
+import com.kiosk.api.customer.service.CustomerService
+import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.enums.StoreStatus
 import com.kiosk.api.store.domain.model.StoreRequestDTO
@@ -15,7 +18,8 @@ import java.sql.SQLException
 @Service
 @Transactional(rollbackFor = [RuntimeException::class, EmptyResultDataAccessException::class, SQLException::class])
 class StoreService(
-    val storeRepository: StoreRepository
+    val storeRepository: StoreRepository,
+    val customerService: CustomerService
 ) {
 
     fun registerStore(register: StoreRequestDTO.Register): StoreResponseDTO.Register {
@@ -41,12 +45,21 @@ class StoreService(
         return StoreResponseDTO.FindOne(findStore)
     }
 
+    // 한 지점의 기간별 매출 조회
     fun getAndStoreRevenueByPeriod(period: StoreRequestDTO.SearchRevenueByPeriod): StoreResponseDTO.FindRevenue {
         val findStore: Store? = storeRepository.findOrderPeriodbyStoreId(period)
         findStore ?: throw BizException(StoreCrudErrorCode.STORE_NOT_FOUND)
         val totalPrice: Int? = findStore.order?.getTotalPrice()
 
         return StoreResponseDTO.FindRevenue(findStore, totalPrice ?: -1)
+    }
+
+    // 특정 고객이 한 지점에서 주문한 전체 내역 조회
+    @Transactional(readOnly = true)
+    fun getOrdersByStoreIdAndCustomerId(orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore): List<Order> {
+        findOneEntityById(orders.storeId)
+        customerService.findOneEntity(orders.customerId)
+        return storeRepository.findOrdersByStoreIdAndCustomerId(orders)
     }
 
     fun findAllStores(): StoreResponseDTO.FindAll {

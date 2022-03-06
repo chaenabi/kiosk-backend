@@ -1,5 +1,6 @@
 package com.kiosk.api.store.repository
 
+import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.order.domain.entity.QOrder
 import com.kiosk.api.order.domain.enums.OrderStatus
 import com.kiosk.api.store.domain.entity.QStore
@@ -27,5 +28,17 @@ class StoreRepositorySupportImpl : StoreRepositorySupport {
             .fetchJoin()
             .where(qStore.id.eq(period.id), qOrder.status.eq(OrderStatus.COMPLETE), qOrder.orderDate.between(period.startDate, period.endDate))
             .fetchOne()
+    }
+
+    override fun findOrdersByStoreIdAndCustomerId(orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore): List<Order> {
+        queryFactory = JPAQueryFactory(entityManager)
+        val qStore: QStore = QStore.store
+        val qOrder: QOrder = qStore.order
+
+        return queryFactory.selectDistinct(qOrder)
+            .from(qStore).innerJoin(qOrder)
+            .fetchJoin()
+            .where(qStore.id.eq(orders.storeId), qOrder.id.eq(orders.customerId))
+            .fetch()
     }
 }

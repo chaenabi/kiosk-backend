@@ -1,6 +1,7 @@
 package com.kiosk.api.store.controller
 
 import com.kiosk.api.common.ResponseDTO
+import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.enums.StoreMessage
 import com.kiosk.api.store.domain.model.StoreRequestDTO
 import com.kiosk.api.store.domain.model.StoreResponseDTO
@@ -38,6 +39,13 @@ class StoreController(
     fun getAnStoreRevenueByPeriod(@Valid @RequestBody period: StoreRequestDTO.SearchRevenueByPeriod, result: BindingResult): ResponseDTO<StoreResponseDTO.FindRevenue> {
         if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(storeService.getAndStoreRevenueByPeriod(period), StoreMessage.SUCCESS_FIND_REVENUE, HttpStatus.OK)
+    }
+
+    // 특정 고객의 한 지점에서 주문한 전체 내역 조회
+    @GetMapping("/store/personal-order-history")
+    fun getOrderHistoryListOfAnCustomer(@Valid @RequestBody orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore, result: BindingResult): ResponseDTO<List<Order>> {
+        if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
+        return ResponseDTO(storeService.getOrdersByStoreIdAndCustomerId(orders), StoreMessage.SUCCESS_FIND_REVENUE, HttpStatus.OK)
     }
 
     @PostMapping("/store")
