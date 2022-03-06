@@ -16,11 +16,12 @@ class AdminService(
     private val adminRepository: AdminRepository
 ) {
 
+    @Transactional(readOnly = true)
     fun signIn(request: AdminRequestDTO.SignIn): AdminResponseDTO {
         val findAdmin = adminRepository.findByName(request.name)
         findAdmin ?: throw BizException(AdminCrudErrorCode.ADMIN_NOT_FOUND)
-        if (findAdmin.password == request.password) return AdminResponseDTO(findAdmin)
-        else throw BizException(AdminCrudErrorCode.ADMIN_PASSWORD_IS_INVALID)
+        if (findAdmin.password != request.password) throw BizException(AdminCrudErrorCode.ADMIN_PASSWORD_IS_INVALID)
+        return AdminResponseDTO(findAdmin, findAdmin.store)
     }
 
     fun signUp(request: AdminRequestDTO.SignUp): AdminResponseDTO {
