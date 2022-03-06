@@ -31,8 +31,14 @@ class StoreService(
         storeRepository.delete(findOneEntityById(storeId))
     }
 
-    fun findOneStore(storeId: Long): StoreResponseDTO {
+    fun findOneStoreById(storeId: Long): StoreResponseDTO {
         return StoreResponseDTO(findOneEntityById(storeId))
+    }
+
+    fun findOneStoreByName(storeName: String): StoreResponseDTO {
+        val findStore = storeRepository.findByName(storeName)
+            .orElseThrow { BizException(StoreCrudErrorCode.STORE_NOT_FOUND) }
+        return StoreResponseDTO(findStore)
     }
 
     fun findAllStores(): StoreResponseDTO.FindAll {

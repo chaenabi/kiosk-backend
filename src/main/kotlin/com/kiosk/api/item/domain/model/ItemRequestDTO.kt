@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties
 import com.kiosk.api.item.domain.entity.Item
 import org.springframework.beans.factory.annotation.Value
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Positive
 
 class ItemRequestDTO {
 
@@ -24,7 +25,7 @@ class ItemRequestDTO {
     }
 
     class Update(
-        @field:NotNull(message = "상품 번호가 반드시 전달되어야 합니다.")
+        @field:Positive(message = "상품 번호가 반드시 전달되어야 합니다.")
         val id: Long?,
         val name: String?,
         val detail: String?,

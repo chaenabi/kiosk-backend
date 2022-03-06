@@ -14,6 +14,7 @@ class Store(
     var id: Long? = null,
 
     var owner: String? = null,
+    var name: String? = null,
 
     var city: String? = null,
     var street: String? = null,
@@ -34,6 +35,7 @@ class Store(
 ) {
     fun updateStore(update: StoreRequestDTO.Update): Store {
         this.city = update.city ?: this.city
+        this.name = update.name ?: this.name
         this.street = update.street ?: this.street
         this.zipCode = update.zipCode ?: this.zipCode
         this.status = update.status ?: this.status

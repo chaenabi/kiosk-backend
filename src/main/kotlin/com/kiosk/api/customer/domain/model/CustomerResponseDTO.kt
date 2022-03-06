@@ -1,8 +1,10 @@
 package com.kiosk.api.customer.domain.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.domain.enums.CustomerGrade
+import com.kiosk.api.order.domain.entity.Order
 import java.time.LocalDateTime
 
 class CustomerResponseDTO {
@@ -25,9 +27,20 @@ class CustomerResponseDTO {
         this.role = customer.role!!
     }
 
-    override fun toString(): String {
-        return "CustomerResponseDTO(id=$id, registerDate=$registerDate, contactNumber=$contactNumber, name=$name, role=$role)"
+    class SearchOrdersByNameAndPeriod {
+
+        var orderId: Long? = null
+        lateinit var orderDate: LocalDateTime
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        var orderedStore: String? = null
+
+        fun mapping(findOrders: List<Order>): SearchOrdersByNameAndPeriod {
+            for (order in findOrders) {
+                orderId = order.id
+                orderDate = order.orderDate
+                orderedStore = "${order.store?.city} ${order.store?.street}"
+            }
+            return this
+        }
     }
-
-
 }

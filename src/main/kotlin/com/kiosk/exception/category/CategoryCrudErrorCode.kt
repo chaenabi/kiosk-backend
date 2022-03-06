@@ -23,7 +23,6 @@ enum class CategoryCrudErrorCode(
         val first = msgMap
             .filter { it.value.msg == failMessage }
             .map { it.value.bizCode }
-        println(first)
         return if (first.isEmpty()) -999 else first[0]
     }
 }

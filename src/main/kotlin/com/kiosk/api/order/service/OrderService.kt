@@ -25,13 +25,13 @@ class OrderService(
     private val orderRepository: OrderRepository,
     private val itemRepository: ItemRepository
 ) {
-    fun order(customerId: Long, itemId: Long, count: Int): OrderResponseDTO {
-        val customer: Customer = customerRepository.findById(customerId)
+    fun order(addOrder: OrderRequestDTO.AddOrder): OrderResponseDTO {
+        val customer: Customer = customerRepository.findById(addOrder.customerId)
             .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
-        val item: Item = itemRepository.findById(itemId)
+        val item: Item = itemRepository.findById(addOrder.itemId)
             .orElseThrow { BizException(ItemCrudErrorCode.ITEM_NOT_FOUND) }
 
-        val orderItem: OrderItem = OrderItem.createOrderItem(item, item.price, count)
+        val orderItem: OrderItem = OrderItem.createOrderItem(item, item.price, addOrder.count)
         val order: Order = Order.createOrder(customer, orderItem)
         orderRepository.save(order)
 
@@ -44,13 +44,4 @@ class OrderService(
 
         order.cancel()
     }
-
-    fun searchOrdersByCustomerName(orderSearch: OrderRequestDTO.SearchOrdersByName): OrderResponseDTO.SearchOrdersByName {
-        customerRepository.findByName(orderSearch.customerName)
-            .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
-        val findOrders = orderRepository.findOrdersByCustomerName(orderSearch)
-        return OrderResponseDTO.SearchOrdersByName().mapping(findOrders)
-    }
-
-
 }

@@ -4,6 +4,9 @@ import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.repository.CustomerRepository
+import com.kiosk.api.order.domain.model.OrderRequestDTO
+import com.kiosk.api.order.domain.model.OrderResponseDTO
+import com.kiosk.api.order.repository.OrderRepository
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.customer.CustomerCrudErrorCode
 import org.springframework.dao.EmptyResultDataAccessException
@@ -16,7 +19,8 @@ import java.sql.SQLException
 @Service
 @Transactional(rollbackFor = [RuntimeException::class, SQLException::class, EmptyResultDataAccessException::class])
 class CustomerService(
-    val customerRepository: CustomerRepository
+    val customerRepository: CustomerRepository,
+    val orderRepository: OrderRepository
 ) {
 
     fun register(customer: CustomerRequestDTO.Register): CustomerResponseDTO {
@@ -43,4 +47,13 @@ class CustomerService(
 
     private fun findOneEntity(id: Long): Customer = customerRepository.findById(id)
         .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
+
+    // 한 회원의 기간별 주문내역 조회
+    fun searchOrdersByCustomerNameAndPeriod(orderSearch: CustomerRequestDTO.SearchOrdersByNameAndPeriod): CustomerResponseDTO.SearchOrdersByNameAndPeriod {
+        customerRepository.findByName(orderSearch.customerName)
+            .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
+        val findOrders = orderRepository.findOrdersByCustomerName(orderSearch)
+        return CustomerResponseDTO.SearchOrdersByNameAndPeriod().mapping(findOrders)
+    }
+
 }

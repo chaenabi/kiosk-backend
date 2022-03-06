@@ -11,6 +11,7 @@ class StoreResponseDTO(store: Store) {
     var street: String? = null
     var zipCode: String? = null
     var status: StoreStatus? = null
+    var name: String? = null
 
     init {
         this.id = store.id
@@ -19,6 +20,7 @@ class StoreResponseDTO(store: Store) {
         this.street = store.street
         this.zipCode = store.zipCode
         this.status = store.status
+        this.name = store.name
     }
 
     data class Register(val registeredStore: Store) {
@@ -28,6 +30,7 @@ class StoreResponseDTO(store: Store) {
         val street = registeredStore.street
         val zipCode = registeredStore.zipCode
         val status = registeredStore.status
+        val name = registeredStore.name
     }
 
     data class Update(val updatedStore: Store) {
@@ -37,6 +40,7 @@ class StoreResponseDTO(store: Store) {
         val street = updatedStore.street
         val zipCode = updatedStore.zipCode
         val status = updatedStore.status
+        val name = updatedStore.name
     }
 
     data class FindAll(val foundAllStores: List<Store>) {

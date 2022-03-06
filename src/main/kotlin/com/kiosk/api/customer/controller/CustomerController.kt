@@ -32,6 +32,12 @@ class CustomerController(
         return ResponseDTO(customerService.findOne(id), CustomerMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }
 
+    @GetMapping("/customer/orderHistory")
+    fun findOrderHistoryOfOneCustomer(@Valid @RequestBody request: CustomerRequestDTO.SearchOrdersByNameAndPeriod, result: BindingResult): ResponseDTO<CustomerResponseDTO.SearchOrdersByNameAndPeriod> {
+        if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)
+        return ResponseDTO(customerService.searchOrdersByCustomerNameAndPeriod(request), CustomerMessage.SUCCESS_FIND_ORDER_HISTORY, HttpStatus.OK)
+    }
+
     @PatchMapping("/customer")
     fun updateCustomer(@Valid @RequestBody customer: CustomerRequestDTO.Update, result: BindingResult): ResponseDTO<CustomerResponseDTO> {
         if (result.hasErrors()) throw InvalidCustomerParameterException(result, CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL)

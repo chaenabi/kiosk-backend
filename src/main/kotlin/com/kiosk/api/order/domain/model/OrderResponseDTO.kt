@@ -22,23 +22,4 @@ class OrderResponseDTO {
         this.totalPrice = order.getTotalPrice()
     }
 
-    class SearchOrdersByName {
-
-        var orderId: Long? = null
-        lateinit var orderDate: LocalDateTime
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        var orderedStore: String? = null
-
-        fun mapping(findOrders: List<Order>): SearchOrdersByName {
-            for (order in findOrders) {
-                orderId = order.id
-                orderDate = order.orderDate
-                orderedStore = "${order.store?.city} ${order.store?.street}"
-            }
-
-            return this
-        }
-    }
-
-
 }
