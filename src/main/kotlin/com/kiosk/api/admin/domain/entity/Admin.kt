@@ -17,7 +17,7 @@ class Admin(
 
     @ManyToOne
     @JoinColumn(name = "store_id")
-    @JsonIgnoreProperties("admin")
+    @JsonIgnoreProperties("admin", "hibernateLazyInitializer", "handler")
     var store: Store? = null
 ) {
     fun updateAdmin(update: AdminRequestDTO.Update): Admin {
@@ -25,5 +25,9 @@ class Admin(
         this.password = update.password ?: this.password
         this.store = update.store ?: this.store
         return this
+    }
+
+    override fun toString(): String {
+        return "Admin(id=$id, name=$name, password=$password)"
     }
 }

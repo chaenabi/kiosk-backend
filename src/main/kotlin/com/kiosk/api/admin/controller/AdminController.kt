@@ -19,7 +19,7 @@ class AdminController(
 ) {
 
     @GetMapping("/admin/signIn")
-    fun signIn(@Valid @RequestBody requestSignIn: AdminRequestDTO.SignIn, result: BindingResult): ResponseDTO<AdminResponseDTO> {
+    fun signIn(@Valid @RequestBody requestSignIn: AdminRequestDTO.SignIn, result: BindingResult): ResponseDTO<AdminResponseDTO.SignIn> {
         if (result.hasErrors()) throw InvalidAdminParameterException(result, AdminCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(adminService.signIn(requestSignIn), AdminMessage.SUCCESS_SIGN_IN, HttpStatus.OK)
     }

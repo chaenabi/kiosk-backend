@@ -6,6 +6,7 @@ import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.customer.domain.model.CustomerResponseDTO
 import com.kiosk.api.customer.repository.CustomerRepository
 import com.kiosk.api.customer.service.CustomerService
+import com.kiosk.api.order.repository.OrderRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -16,7 +17,8 @@ import org.junit.jupiter.api.Test
 class CustomerServiceTest {
 
     private val customerRepository: CustomerRepository = mockk()
-    private val customerService: CustomerService = CustomerService(customerRepository)
+    private val orderRepository: OrderRepository = mockk()
+    private val customerService: CustomerService = CustomerService(customerRepository, orderRepository)
 
     @Test
     fun `회원 정보 저장 서비스 - 성공`() {

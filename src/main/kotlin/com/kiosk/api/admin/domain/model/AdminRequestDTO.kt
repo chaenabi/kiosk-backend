@@ -10,9 +10,9 @@ class AdminRequestDTO {
 
     class SignIn(
        @field:NotBlank(message = "관리자 아이디가 반드시 전달되어야 합니다.")
-       val name: String,
+       val name: String?,
        @field:NotBlank(message = "관리자 비밀번호가 전달되지 않았습니다.")
-       val password: String
+       val password: String?
     ) {
         fun toEntity(): Admin {
             return Admin(
@@ -24,10 +24,10 @@ class AdminRequestDTO {
 
     class SignUp(
         @field:NotBlank(message = "관리자 아이디가 반드시 전달되어야 합니다.")
-        val name: String,
+        val name: String?,
         @field:NotBlank(message = "관리자 비밀번호가 전달되지 않았습니다.")
-        val password: String,
-        val store: Store
+        val password: String?,
+        val store: Store?
     ) {
         fun toEntity(): Admin {
             return Admin(
