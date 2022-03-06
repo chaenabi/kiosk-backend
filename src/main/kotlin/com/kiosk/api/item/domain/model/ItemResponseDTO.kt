@@ -33,7 +33,7 @@ class ItemResponseDTO {
                 }
             }
         }
-        item.category.forEach { this.category.add(it.category.name) }
+        item.category.forEach { this.category.add(it.category.name!!) }
     }
 
     class Paging(selectedPageNumber: Int, selectedItems: Page<Item>) {

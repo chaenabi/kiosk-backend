@@ -24,18 +24,21 @@ class AdminController(
         return ResponseDTO(adminService.signIn(requestSignIn), AdminMessage.SUCCESS_SIGN_IN, HttpStatus.OK)
     }
 
+    // 문제
     @PostMapping("/admin/signUp")
-    fun signUp(@RequestBody requestSignUp: AdminRequestDTO.SignUp, result: BindingResult): ResponseDTO<AdminResponseDTO> {
+    fun signUp(@Valid @RequestBody requestSignUp: AdminRequestDTO.SignUp, result: BindingResult): ResponseDTO<AdminResponseDTO> {
         if (result.hasErrors()) throw InvalidAdminParameterException(result, AdminCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(adminService.signUp(requestSignUp), AdminMessage.SUCCESS_SIGN_UP, HttpStatus.OK)
     }
 
+    // 문제
     @PatchMapping("/admin/update")
-    fun updateAdmin(@RequestBody requestUpdate: AdminRequestDTO.Update, result: BindingResult): ResponseDTO<AdminResponseDTO> {
+    fun updateAdmin(@Valid @RequestBody requestUpdate: AdminRequestDTO.Update, result: BindingResult): ResponseDTO<AdminResponseDTO> {
         if (result.hasErrors()) throw InvalidAdminParameterException(result, AdminCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(adminService.updateAdmin(requestUpdate), AdminMessage.SUCCESS_UPDATE, HttpStatus.OK)
     }
 
+    // 문제
     @DeleteMapping("/admin/remove/{id}")
     fun removeAdmin(@PathVariable("id") id: Long): ResponseDTO<Unit> {
         adminService.removeAdmin(id)

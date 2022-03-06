@@ -27,7 +27,7 @@ class StoreService(
     }
 
     fun updateStore(update: StoreRequestDTO.Update): StoreResponseDTO.Update {
-        val store = findOneEntityById(update.id)
+        val store = findOneEntityById(update.id!!)
         return StoreResponseDTO.Update(store.updateStore(update))
     }
 
@@ -57,8 +57,8 @@ class StoreService(
     // 특정 고객이 한 지점에서 주문한 전체 내역 조회
     @Transactional(readOnly = true)
     fun getOrdersByStoreIdAndCustomerId(orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore): List<Order> {
-        findOneEntityById(orders.storeId)
-        customerService.findOneEntity(orders.customerId)
+        findOneEntityById(orders.storeId!!)
+        customerService.findOneEntity(orders.customerId!!)
         return storeRepository.findOrdersByStoreIdAndCustomerId(orders)
     }
 

@@ -34,13 +34,13 @@ class Order(
 ) {
 
     companion object {
-        fun createOrder(customer: Customer, vararg orderItems: OrderItem): Order {
+        fun createOrder(customer: Customer, store: Store, vararg orderItems: OrderItem): Order {
             val order = Order()
             order.customer = customer
             for (orderItem in orderItems) {
                 order.addOrderItem(orderItem)
             }
-            //order.status = OrderStatus.WAIT
+            order.store =  store
             return order
         }
     }

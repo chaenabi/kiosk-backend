@@ -15,9 +15,9 @@ class StoreRequestDTO {
         val zipCode: String? = null,
         val status: StoreStatus = StoreStatus.AWAIT,
         @field:NotBlank(message = "지점 주인 이름 정보는 필수입니다.")
-        val owner: String,
+        val owner: String?,
         @field:NotBlank(message = "지점명 정보가 반드시 필요합니다.")
-        val name: String
+        val name: String?
     ) {
         fun toEntity(): Store {
             return Store(
@@ -46,15 +46,15 @@ class StoreRequestDTO {
         @field:Positive(message = "지점 번호가 반드시 전달되어야 합니다.")
         val id: Long,
         @field:Past(message = "지점 매출 집계 시 시작 날짜는 반드시 현재 날짜보다 이전이어야 합니다.")
-        val startDate: LocalDateTime,
+        val startDate: LocalDateTime?,
         @field:NotBlank(message = "지점 매출 집계 시 종료 날짜를 반드시 입력해주셔야 합니다.")
-        val endDate: LocalDateTime,
+        val endDate: LocalDateTime?,
     )
 
     data class SearchOrdersOfAnCustomerInTheStore(
         @field:Positive(message = "회원 번호가 반드시 전달되어야 합니다.")
-        val customerId: Long,
+        val customerId: Long?,
         @field:Positive(message = "지점 번호가 반드시 전달되어야 합니다.")
-        val storeId: Long,
+        val storeId: Long?,
     )
 }

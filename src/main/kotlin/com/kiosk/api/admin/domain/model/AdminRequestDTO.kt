@@ -27,9 +27,10 @@ class AdminRequestDTO {
         val name: String?,
         @field:NotBlank(message = "관리자 비밀번호가 전달되지 않았습니다.")
         val password: String?,
-        val store: Store?
+        @field:NotBlank(message = "지점 이름 정보가 반드시 필요합니다.")
+        val storeName: String?
     ) {
-        fun toEntity(): Admin {
+        fun toEntity(store: Store?): Admin {
             return Admin(
                 name = name,
                 password = password,
@@ -43,14 +44,12 @@ class AdminRequestDTO {
         val id: Long,
         val name: String?,
         val password: String?,
-        val store: Store?
+        val storeId: Long?
     ) {
-        fun toEntity(): Admin {
-            return Admin(
-                name = name,
-                password = password,
-                store = store
-            )
-        }
+        var store: Store? = null
+            set(value) {
+                field = value
+            }
+
     }
 }

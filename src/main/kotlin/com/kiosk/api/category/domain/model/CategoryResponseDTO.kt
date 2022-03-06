@@ -6,7 +6,7 @@ import com.kiosk.api.item.domain.model.ItemResponseDTO
 class CategoryResponseDTO {
     var id: Long? = null
     var parentId: Long? = null
-    lateinit var name: String
+    var name: String? = null
     var items: MutableList<ItemResponseDTO.ReProcessing> = mutableListOf()
 
     private constructor()

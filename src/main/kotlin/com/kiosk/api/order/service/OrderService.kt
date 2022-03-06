@@ -9,10 +9,13 @@ import com.kiosk.api.order.domain.entity.OrderItem
 import com.kiosk.api.order.domain.model.OrderRequestDTO
 import com.kiosk.api.order.domain.model.OrderResponseDTO
 import com.kiosk.api.order.repository.OrderRepository
+import com.kiosk.api.store.domain.entity.Store
+import com.kiosk.api.store.repository.StoreRepository
 import com.kiosk.exception.common.BizException
 import com.kiosk.exception.customer.CustomerCrudErrorCode
 import com.kiosk.exception.item.ItemCrudErrorCode
 import com.kiosk.exception.order.OrderCrudErrorCode
+import com.kiosk.exception.store.StoreCrudErrorCode
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,16 +26,19 @@ import java.sql.SQLException
 class OrderService(
     private val customerRepository: CustomerRepository,
     private val orderRepository: OrderRepository,
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val storeRepository: StoreRepository
 ) {
     fun createOrder(addOrder: OrderRequestDTO.AddOrder): OrderResponseDTO {
         val customer: Customer = customerRepository.findById(addOrder.customerId)
             .orElseThrow { BizException(CustomerCrudErrorCode.CUSTOMER_NOT_FOUND) }
         val item: Item = itemRepository.findById(addOrder.itemId)
             .orElseThrow { BizException(ItemCrudErrorCode.ITEM_NOT_FOUND) }
+        val store: Store = storeRepository.findById(addOrder.storeId)
+            .orElseThrow { BizException(StoreCrudErrorCode.STORE_NOT_FOUND) }
 
         val orderItem: OrderItem = OrderItem.createOrderItem(item, item.price, addOrder.count)
-        val order: Order = Order.createOrder(customer, orderItem)
+        val order: Order = Order.createOrder(customer, store, orderItem)
         orderRepository.save(order)
 
         return OrderResponseDTO(order, customer)

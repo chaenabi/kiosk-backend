@@ -1,6 +1,9 @@
 package com.kiosk.exception.admin
 
 import com.kiosk.exception.common.ErrorCode
+import com.kiosk.exception.customer.CustomerCrudErrorCode
+import com.kiosk.exception.store.StoreCrudErrorCode
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -18,14 +21,25 @@ enum class AdminCrudErrorCode(
     ADMIN_PASSWORD_IS_INVALID(NOT_FOUND, -6, "관리자 비밀번호가 틀립니다."),
     ADMIN_NAME_DUPLICATE(BAD_REQUEST, -7, "이미 존재하는 아이디입니다.");
 
+    @Value("\${default-not-matched-biz-code}")
+    var notMatched: Int = -999
+
     companion object {
         val msgMap = values().associateBy(AdminCrudErrorCode::msg)
     }
 
     override fun findMatchBizCode(failMessage: String?): Int {
-        val first = msgMap
+        val bizCode = msgMap
             .filter { it.value.msg == failMessage }
             .map { it.value.bizCode }
-        return if (first.isEmpty()) -999 else first[0]
+
+        var otherBizCode: Int = notMatched
+
+        // storeCrudErrorCode 탐색
+        if (bizCode.isEmpty()) otherBizCode = StoreCrudErrorCode.STORE_CRUD_FAIL.findMatchBizCode(failMessage)
+
+        return if (bizCode.isEmpty() && otherBizCode == notMatched) notMatched
+        else if (bizCode.isNotEmpty()) bizCode[0]
+        else otherBizCode
     }
 }

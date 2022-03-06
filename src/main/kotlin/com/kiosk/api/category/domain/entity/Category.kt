@@ -11,7 +11,7 @@ class Category(
 
     var parentId: Long? = null,
     @Column(unique = true)
-    var name: String,
+    var name: String? = null,
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonIgnoreProperties("item")

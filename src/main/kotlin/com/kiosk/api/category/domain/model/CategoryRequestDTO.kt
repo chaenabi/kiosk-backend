@@ -11,7 +11,7 @@ class CategoryRequestDTO {
     class Add(
         val parentId: Long? = null,
         @field:NotBlank(message = "반드시 카테고리명이 전달되어야 합니다.")
-        val name: String
+        val name: String?
     ) {
         fun toEntity(): Category {
             return Category(

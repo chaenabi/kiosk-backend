@@ -31,7 +31,7 @@ class CategoryService(
     }
 
     fun update(category: CategoryRequestDTO.Update) {
-        val wantToUpdateCategory = findOneEntity(category.id)
+        val wantToUpdateCategory = findOneEntity(category.id!!)
         wantToUpdateCategory.updateCategory(category)
     }
 
@@ -40,8 +40,8 @@ class CategoryService(
     }
 
     fun addItemsInCategory(addItems: CategoryRequestDTO.AddItems) {
-        if (!categoryRepository.existsById(addItems.categoryId)) throw BizException(CategoryCrudErrorCode.CATEGORY_NOT_FOUND)
-        for (itemId in addItems.items) {
+        if (!categoryRepository.existsById(addItems.categoryId!!)) throw BizException(CategoryCrudErrorCode.CATEGORY_NOT_FOUND)
+        for (itemId in addItems.items!!) {
             if (!itemRepository.existsById(itemId)) throw BizException(ItemCrudErrorCode.ITEM_NOT_FOUND)
         }
         for (itemId in addItems.items) {
@@ -51,8 +51,8 @@ class CategoryService(
     }
 
     fun drawOffItemsInCategory(drawOffItems: CategoryRequestDTO.DrawOffItems) {
-        if (!categoryRepository.existsById(drawOffItems.categoryId)) throw BizException(CategoryCrudErrorCode.CATEGORY_NOT_FOUND)
-        for (itemId in drawOffItems.items) {
+        if (!categoryRepository.existsById(drawOffItems.categoryId!!)) throw BizException(CategoryCrudErrorCode.CATEGORY_NOT_FOUND)
+        for (itemId in drawOffItems.items!!) {
             if (!itemRepository.existsById(itemId)) throw BizException(ItemCrudErrorCode.ITEM_NOT_FOUND)
         }
         for (itemId in drawOffItems.items) {

@@ -39,7 +39,7 @@ enum class StoreCrudErrorCode(
         // storeCrudErrorCode 탐색
         if (bizCode.isEmpty()) otherBizCode = CustomerCrudErrorCode.CUSTOMER_CRUD_FAIL.findMatchBizCode(failMessage)
 
-        return if (otherBizCode == notMatched) notMatched
+        return if (bizCode.isEmpty() && otherBizCode == notMatched) notMatched
         else if (bizCode.isNotEmpty()) bizCode[0]
         else otherBizCode
     }
