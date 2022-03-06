@@ -15,7 +15,8 @@ enum class AdminCrudErrorCode(
     ADMIN_NAME_IS_NULL(BAD_REQUEST, -3, "관리자 아이디가 반드시 전달되어야 합니다."),
     ADMIN_PASSWORD_IS_NULL(BAD_REQUEST, -4, "관리자 비밀번호가 전달되지 않았습니다."),
     ADMIN_NOT_FOUND(NOT_FOUND, -5, "존재하지 않는 관리자 아이디입니다."),
-    ADMIN_PASSWORD_IS_INVALID(NOT_FOUND, -6, "관리자 비밀번호가 틀립니다.");
+    ADMIN_PASSWORD_IS_INVALID(NOT_FOUND, -6, "관리자 비밀번호가 틀립니다."),
+    ADMIN_NAME_DUPLICATE(BAD_REQUEST, -7, "이미 존재하는 아이디입니다.");
 
     companion object {
         val msgMap = values().associateBy(AdminCrudErrorCode::msg)

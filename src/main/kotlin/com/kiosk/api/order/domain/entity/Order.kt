@@ -26,6 +26,7 @@ class Order(
     var customer: Customer? = null,
 
     @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id")
     var store: Store? = null,
 
     @OneToMany(mappedBy = "order", fetch = LAZY)

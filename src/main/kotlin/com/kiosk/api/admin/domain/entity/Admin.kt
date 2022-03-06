@@ -11,11 +11,12 @@ class Admin(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "admin_id")
     var id: Long? = null,
 
+    @Column(unique = true)
     var name: String? = null,
     var password: String? = null,
 
     @ManyToOne
-    @JoinColumn(name = "admin")
+    @JoinColumn(name = "store_id")
     @JsonIgnoreProperties("admin")
     var store: Store? = null
 ) {

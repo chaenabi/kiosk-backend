@@ -24,6 +24,7 @@ class AdminService(
     }
 
     fun signUp(request: AdminRequestDTO.SignUp): AdminResponseDTO {
+        if (adminRepository.findByName(request.name) != null) throw BizException(AdminCrudErrorCode.ADMIN_NAME_DUPLICATE)
         return AdminResponseDTO(adminRepository.save(request.toEntity()))
     }
 
