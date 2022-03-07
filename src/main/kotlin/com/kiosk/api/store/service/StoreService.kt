@@ -25,12 +25,13 @@ class StoreService(
     }
 
     fun updateStore(update: StoreRequestDTO.Update): StoreResponseDTO.Update {
-        val store = findOneEntityById(update.id)
+        val store = findOneEntityById(update.storeId)
         return StoreResponseDTO.Update(store.updateStore(update))
     }
 
     fun removeStore(storeId: Long) {
-        storeRepository.delete(findOneEntityById(storeId))
+        val wantToRemoveStore = findOneEntityById(storeId)
+        wantToRemoveStore.removeStore()
     }
 
     fun findOneStoreById(storeId: Long): StoreResponseDTO.FindOne {
@@ -47,13 +48,8 @@ class StoreService(
     fun getAndStoreRevenueByPeriod(period: StoreRequestDTO.SearchRevenueByPeriod): StoreResponseDTO.FindRevenue {
         val findStore: Store? = storeRepository.findOrderPeriodbyStoreId(period)
         findStore ?: throw BizException(StoreCrudErrorCode.STORE_NOT_FOUND)
-        val totalPrices: MutableList<Int> = arrayListOf()
-        val orders = findStore.order
-        for (order in orders) {
-            totalPrices.add(order.getTotalPrice())
-        }
-
-        return StoreResponseDTO.FindRevenue(findStore, totalPrices)
+        val soldList = StoreResponseDTO.FindRevenue.mapping(findStore)
+        return StoreResponseDTO.FindRevenue(findStore, soldList)
     }
 
     // 특정 고객이 한 지점에서 주문한 전체 내역 조회

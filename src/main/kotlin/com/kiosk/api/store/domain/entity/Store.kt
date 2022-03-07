@@ -1,5 +1,6 @@
 package com.kiosk.api.store.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.kiosk.api.admin.domain.entity.Admin
 import com.kiosk.api.order.domain.entity.Order
@@ -24,11 +25,11 @@ class Store(
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20)
-    var status: StoreStatus = StoreStatus.AWAIT,
+    var status: StoreStatus = StoreStatus.OPEN,
 
     @OneToMany(mappedBy = "store", fetch = LAZY, orphanRemoval = true)
-    @JsonIgnoreProperties("store")
-    var order: MutableList<Order> = arrayListOf(),
+    @JsonIgnore
+    var orders: MutableList<Order> = arrayListOf(),
 
     @OneToMany(mappedBy = "store", fetch = LAZY)
     @JsonIgnoreProperties("store")
@@ -42,5 +43,9 @@ class Store(
         this.status = update.status ?: this.status
         this.owner = update.owner ?: this.owner
         return this
+    }
+
+    fun removeStore() {
+        this.status = StoreStatus.END
     }
 }

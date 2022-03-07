@@ -1,5 +1,6 @@
 package com.kiosk.api.order.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.kiosk.api.item.domain.entity.Item
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
@@ -14,10 +15,12 @@ class OrderItem(
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnoreProperties("order")
     var order: Order? = null,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id", nullable = false)
+    @JsonIgnoreProperties("item")
     var item: Item? = null
 ) {
     companion object {

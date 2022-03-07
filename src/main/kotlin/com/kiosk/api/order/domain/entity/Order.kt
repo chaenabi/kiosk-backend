@@ -1,5 +1,6 @@
 package com.kiosk.api.order.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.kiosk.api.customer.domain.entity.Customer
 import com.kiosk.api.order.domain.enums.OrderStatus
 import com.kiosk.api.store.domain.entity.Store
@@ -24,10 +25,12 @@ class Order(
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
+    @JsonIgnoreProperties("orders")
     var customer: Customer? = null,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
+    @JsonIgnoreProperties("orders", "store")
     var store: Store? = null,
 
     @OneToMany(mappedBy = "order")

@@ -29,7 +29,7 @@ class StoreController(
         return ResponseDTO(storeService.findOneStoreById(id), StoreMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }
 
-    @GetMapping("store")
+    @GetMapping("/store")
     fun findStoreByName(@RequestParam(value = "name") name: String): ResponseDTO<StoreResponseDTO.FindOne> {
         return ResponseDTO(storeService.findOneStoreByName(name), StoreMessage.SUCCESS_FIND_ONE, HttpStatus.OK)
     }

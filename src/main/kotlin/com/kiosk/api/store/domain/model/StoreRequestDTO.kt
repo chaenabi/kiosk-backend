@@ -1,19 +1,17 @@
 package com.kiosk.api.store.domain.model
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.enums.StoreStatus
 import java.time.LocalDateTime
-import javax.validation.constraints.FutureOrPresent
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Past
-import javax.validation.constraints.Positive
+import javax.validation.constraints.*
 
 class StoreRequestDTO {
     data class Register(
         val city: String? = null,
         val street: String? = null,
         val zipCode: String? = null,
-        val status: StoreStatus = StoreStatus.AWAIT,
+        val status: StoreStatus?,
         @field:NotBlank(message = "지점 주인 이름 정보는 필수입니다.")
         val owner: String?,
         @field:NotBlank(message = "지점명 정보가 반드시 필요합니다.")
@@ -24,7 +22,7 @@ class StoreRequestDTO {
                 city = city,
                 street = street,
                 zipCode = zipCode,
-                status = status,
+                status = status ?: StoreStatus.OPEN,
                 owner = owner,
                 name = name
             )
@@ -33,7 +31,7 @@ class StoreRequestDTO {
 
     data class Update(
         @field:Positive(message = "지점 번호가 반드시 전달되어야 합니다.")
-        val id: Long,
+        val storeId: Long,
         val name: String? = null,
         val city: String? = null,
         val street: String? = null,
@@ -44,11 +42,13 @@ class StoreRequestDTO {
 
     data class SearchRevenueByPeriod(
         @field:Positive(message = "지점 번호가 반드시 전달되어야 합니다.")
-        val id: Long,
+        val storeId: Long,
         @field:Past(message = "지점 매출 집계 시 시작 날짜는 반드시 현재 날짜보다 이전이어야 합니다.")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         val startDate: LocalDateTime?,
-        @field:NotBlank(message = "지점 매출 집계 시 종료 날짜를 반드시 입력해주셔야 합니다.")
-        val endDate: LocalDateTime?,
+        @field:NotNull(message = "지점 매출 집계 시 종료 날짜를 반드시 입력해주셔야 합니다.")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        val endDate: LocalDateTime? = LocalDateTime.now(),
     )
 
     data class SearchOrdersOfAnCustomerInTheStore(

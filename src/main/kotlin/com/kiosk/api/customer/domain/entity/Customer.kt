@@ -1,5 +1,6 @@
 package com.kiosk.api.customer.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.kiosk.api.customer.domain.enums.CustomerGrade
 import com.kiosk.api.customer.domain.model.CustomerRequestDTO
 import com.kiosk.api.order.domain.entity.Order
@@ -28,6 +29,7 @@ class Customer(
     var registerDate: LocalDateTime = LocalDateTime.now(),
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties("orders", "customer")
     var orders: MutableList<Order> = arrayListOf()
 ) {
 
