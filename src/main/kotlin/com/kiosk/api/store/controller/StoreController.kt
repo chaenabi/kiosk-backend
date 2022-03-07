@@ -1,7 +1,6 @@
 package com.kiosk.api.store.controller
 
 import com.kiosk.api.common.ResponseDTO
-import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.enums.StoreMessage
 import com.kiosk.api.store.domain.model.StoreRequestDTO
 import com.kiosk.api.store.domain.model.StoreResponseDTO
@@ -36,26 +35,46 @@ class StoreController(
 
     // 한 지점의 특정 기간내 매출 검색
     @GetMapping("/store/revenue")
-    fun getAnStoreRevenueByPeriod(@Valid @RequestBody period: StoreRequestDTO.SearchRevenueByPeriod, result: BindingResult): ResponseDTO<StoreResponseDTO.FindRevenue> {
+    fun getAnStoreRevenueByPeriod(
+        @Valid @RequestBody period: StoreRequestDTO.SearchRevenueByPeriod,
+        result: BindingResult
+    ): ResponseDTO<StoreResponseDTO.FindRevenue> {
         if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
-        return ResponseDTO(storeService.getAndStoreRevenueByPeriod(period), StoreMessage.SUCCESS_FIND_REVENUE, HttpStatus.OK)
+        return ResponseDTO(
+            storeService.getAndStoreRevenueByPeriod(period),
+            StoreMessage.SUCCESS_FIND_REVENUE,
+            HttpStatus.OK
+        )
     }
 
     // 특정 고객의 한 지점에서 주문한 전체 내역 조회
     @GetMapping("/store/personal-order-history")
-    fun getOrderHistoryListOfAnCustomer(@Valid @RequestBody orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore, result: BindingResult): ResponseDTO<List<Order>> {
+    fun getOrderHistoryListOfAnCustomer(
+        @Valid @RequestBody orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore,
+        result: BindingResult
+    ): ResponseDTO<StoreResponseDTO.SearchOrdersOfAnCustomerInTheStore> {
         if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
-        return ResponseDTO(storeService.getOrdersByStoreIdAndCustomerId(orders), StoreMessage.SUCCESS_FIND_REVENUE, HttpStatus.OK)
+        return ResponseDTO(
+            storeService.getOrdersByStoreIdAndCustomerId(orders),
+            StoreMessage.SUCCESS_FIND_REVENUE,
+            HttpStatus.OK
+        )
     }
 
     @PostMapping("/store")
-    fun registerStore(@RequestBody requestRegister: StoreRequestDTO.Register, result: BindingResult): ResponseDTO<StoreResponseDTO.Register> {
+    fun registerStore(
+        @RequestBody requestRegister: StoreRequestDTO.Register,
+        result: BindingResult
+    ): ResponseDTO<StoreResponseDTO.Register> {
         if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(storeService.registerStore(requestRegister), StoreMessage.SUCCESS_REGISTER, HttpStatus.OK)
     }
 
     @PatchMapping("/store")
-    fun updateStore(@RequestBody requestUpdate: StoreRequestDTO.Update, result: BindingResult): ResponseDTO<StoreResponseDTO.Update> {
+    fun updateStore(
+        @RequestBody requestUpdate: StoreRequestDTO.Update,
+        result: BindingResult
+    ): ResponseDTO<StoreResponseDTO.Update> {
         if (result.hasErrors()) throw InvalidStoreParameterException(result, StoreCrudErrorCode.STORE_CRUD_FAIL)
         return ResponseDTO(storeService.updateStore(requestUpdate), StoreMessage.SUCCESS_UPDATE, HttpStatus.OK)
     }

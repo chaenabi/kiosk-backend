@@ -1,7 +1,6 @@
 package com.kiosk.api.store.service
 
 import com.kiosk.api.customer.service.CustomerService
-import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.model.StoreRequestDTO
 import com.kiosk.api.store.domain.model.StoreResponseDTO
@@ -48,16 +47,18 @@ class StoreService(
     fun getAndStoreRevenueByPeriod(period: StoreRequestDTO.SearchRevenueByPeriod): StoreResponseDTO.FindRevenue {
         val findStore: Store? = storeRepository.findOrderPeriodbyStoreId(period)
         findStore ?: throw BizException(StoreCrudErrorCode.STORE_NOT_FOUND)
-        val soldList = StoreResponseDTO.FindRevenue.mapping(findStore)
+        val soldList = StoreResponseDTO.FindRevenue.mapping(findStore, period)
         return StoreResponseDTO.FindRevenue(findStore, soldList)
     }
 
     // 특정 고객이 한 지점에서 주문한 전체 내역 조회
     @Transactional(readOnly = true)
-    fun getOrdersByStoreIdAndCustomerId(orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore): List<Order> {
+    fun getOrdersByStoreIdAndCustomerId(orders: StoreRequestDTO.SearchOrdersOfAnCustomerInTheStore): StoreResponseDTO.SearchOrdersOfAnCustomerInTheStore {
         findOneEntityById(orders.storeId!!)
         customerService.findOneEntity(orders.customerId!!)
-        return storeRepository.findOrdersByStoreIdAndCustomerId(orders)
+        val allOrdersOfAnCustomerInTheStore = storeRepository.findOrdersByStoreIdAndCustomerId(orders)
+        val mappingResult = StoreResponseDTO.SearchOrdersOfAnCustomerInTheStore.mapping(allOrdersOfAnCustomerInTheStore)
+        return StoreResponseDTO.SearchOrdersOfAnCustomerInTheStore(mappingResult)
     }
 
     fun findAllStores(): StoreResponseDTO.FindAll {

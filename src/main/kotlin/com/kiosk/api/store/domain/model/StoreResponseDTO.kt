@@ -1,6 +1,7 @@
 package com.kiosk.api.store.domain.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.kiosk.api.order.domain.entity.Order
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.enums.StoreStatus
 import java.time.LocalDateTime
@@ -67,11 +68,14 @@ class StoreResponseDTO {
         }
 
         companion object {
-            fun mapping(store: Store): List<Sold> {
+            fun mapping(store: Store, period: StoreRequestDTO.SearchRevenueByPeriod): List<Sold> {
                 val orders = store.orders
                 val soldList: MutableList<Sold> = arrayListOf()
 
                 for (order in orders) {
+                    // sql between이 정상 질의되지 못해 부득이하게 필터링을 한번 더 수행하는 로직을 작성하게 되었습니다.
+                    if (!(period.startDate!! <= order.orderDate && order.orderDate <= period.endDate)) continue
+
                     soldList.add(
                         Sold(
                             order.orderDate,
@@ -92,6 +96,39 @@ class StoreResponseDTO {
             val totalPrice: Int,
             val itemName: String,
             val soldItemCount: Int
+        )
+    }
+
+    class SearchOrdersOfAnCustomerInTheStore(
+        private val mappingResult: List<CustomerHistory>
+    ) {
+        val orders: List<CustomerHistory> = mappingResult
+        val orderCount: Int = mappingResult.size
+
+        companion object {
+            fun mapping(orders: List<Order>): List<CustomerHistory> {
+                val historyList: MutableList<CustomerHistory> = arrayListOf()
+
+                for (order in orders) {
+                    historyList.add(
+                        CustomerHistory(
+                            order.orderDate,
+                            order.orderItems[0].item!!.name,
+                            order.orderItems[0].count,
+                            order.store!!.name
+                        )
+                    )
+                }
+
+                return historyList
+            }
+        }
+
+        class CustomerHistory(
+            val orderDate: LocalDateTime,
+            val itemName: String,
+            val boughtCount: Int,
+            val storeName: String?
         )
     }
 }

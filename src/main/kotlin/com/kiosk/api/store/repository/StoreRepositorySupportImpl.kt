@@ -38,8 +38,8 @@ class StoreRepositorySupportImpl : StoreRepositorySupport {
 
         return queryFactory.selectDistinct(qOrder)
             .from(qStore).innerJoin(qOrder)
-            .on(qStore.id.eq(orders.storeId))
-            .where(qOrder.id.eq(orders.customerId))
+            .on(qStore.id.eq(qOrder.store.id))
+            .where(qOrder.customer.id.eq(orders.customerId), qStore.id.eq(orders.storeId))
             .fetch()
     }
 }

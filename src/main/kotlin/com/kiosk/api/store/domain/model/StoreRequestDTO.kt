@@ -1,8 +1,11 @@
 package com.kiosk.api.store.domain.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
 import com.kiosk.api.store.domain.entity.Store
 import com.kiosk.api.store.domain.enums.StoreStatus
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.validation.constraints.*
 
