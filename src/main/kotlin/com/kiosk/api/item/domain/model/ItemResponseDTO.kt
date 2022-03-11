@@ -21,7 +21,7 @@ class ItemResponseDTO {
 
     constructor(item: Item, itemImages: MutableList<ItemImage>) {
         this.id = item.id
-        this.itemName = item.name
+        this.itemName = item.itemName
         this.detail = item.detail
         this.price = item.price
         this.quantity = item.quantity
@@ -58,7 +58,7 @@ class ItemResponseDTO {
                     list.add(
                         ReProcessing(
                         id = it.id,
-                        itemName = it.name,
+                        itemName = it.itemName,
                         detail = it.detail,
                         price = it.price,
                         quantity = it.quantity,
@@ -71,7 +71,7 @@ class ItemResponseDTO {
             fun mapping(item: Item): ReProcessing {
                 return ReProcessing(
                     id = item.id,
-                    itemName = item.name,
+                    itemName = item.itemName,
                     detail = item.detail,
                     price = item.price,
                     quantity = item.quantity,

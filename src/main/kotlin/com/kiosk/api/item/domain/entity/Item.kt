@@ -15,7 +15,7 @@ class Item(
     @Column(name = "item_id")
     var id: Long? = null,
 
-    var name: String,
+    var itemName: String,
     var detail: String,
     var price: Int,
     var quantity: Int,
@@ -31,7 +31,7 @@ class Item(
 
 ) {
     fun updateItem(item: ItemRequestDTO.Update) {
-        this.name = item.itemName ?: this.name
+        this.itemName = item.itemName ?: this.itemName
         this.detail = item.detail ?: this.detail
         this.price = item.price ?: this.price
         this.quantity = item.quantity ?: this.quantity

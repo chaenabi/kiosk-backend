@@ -80,7 +80,7 @@ class StoreResponseDTO {
                         Sold(
                             order.orderDate,
                             order.getTotalPrice(),
-                            order.orderItems[0].item!!.name,
+                            order.orderItems[0].item!!.itemName,
                             order.orderItems[0].count
                         )
                     )
@@ -113,7 +113,7 @@ class StoreResponseDTO {
                     historyList.add(
                         CustomerHistory(
                             order.orderDate,
-                            order.orderItems[0].item!!.name,
+                            order.orderItems[0].item!!.itemName,
                             order.orderItems[0].count,
                             order.store!!.name
                         )

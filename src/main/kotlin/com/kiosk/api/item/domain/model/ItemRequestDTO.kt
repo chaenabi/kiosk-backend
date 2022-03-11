@@ -16,7 +16,7 @@ class ItemRequestDTO {
     ) {
         fun toEntity(): Item {
             return Item(
-                name = itemName,
+                itemName = itemName,
                 detail = detail ?: "",
                 price = price ?: Int.MAX_VALUE,
                 quantity = quantity,
