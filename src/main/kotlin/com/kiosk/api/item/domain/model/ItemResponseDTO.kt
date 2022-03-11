@@ -10,7 +10,7 @@ import kotlin.math.ceil
 class ItemResponseDTO {
 
     var id: Long? = null
-    lateinit var name: String
+    lateinit var itemName: String
     lateinit var detail: String
     var price: Int? = null
     var quantity: Int? = null
@@ -21,14 +21,14 @@ class ItemResponseDTO {
 
     constructor(item: Item, itemImages: MutableList<ItemImage>) {
         this.id = item.id
-        this.name = item.name
+        this.itemName = item.name
         this.detail = item.detail
         this.price = item.price
         this.quantity = item.quantity
         itemImages.forEach {
             it.name?.let {
                 name -> run {
-                    var file = File("${it.path}$name")
+                    val file = File("${it.path}$name")
                     if (file.exists()) images.add(Files.readAllBytes(file.toPath()))
                 }
             }
@@ -83,7 +83,7 @@ class ItemResponseDTO {
 
     class ItemImageResponseDTO(
         val id: Long?,
-        val name: String?,
+        val itemName: String?,
         val bytes: ByteArray
     ) {
         companion object {
@@ -96,7 +96,7 @@ class ItemResponseDTO {
                     list.add(
                         ItemImageResponseDTO(
                         id = it.id,
-                        name = it.name,
+                        itemName = it.name,
                         bytes = (if (file.exists()) Files.readAllBytes(file.toPath()) else byteArrayOf())
                     ))
                 }
