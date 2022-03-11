@@ -8,15 +8,15 @@ import javax.validation.constraints.Positive
 
 class ItemRequestDTO {
 
-    class Save @JsonIncludeProperties("name", "detail", "price", "quantity") constructor(
-        val name: String,
+    class Save @JsonIncludeProperties("itemName", "detail", "price", "quantity") constructor(
+        val itemName: String,
         val detail: String?,
         val price: Int?,
         val quantity: Int
     ) {
         fun toEntity(): Item {
             return Item(
-                name = name,
+                name = itemName,
                 detail = detail ?: "",
                 price = price ?: Int.MAX_VALUE,
                 quantity = quantity,
@@ -27,7 +27,7 @@ class ItemRequestDTO {
     class Update(
         @field:Positive(message = "상품 번호가 반드시 전달되어야 합니다.")
         val id: Long?,
-        val name: String?,
+        val itemName: String?,
         val detail: String?,
         val price: Int?,
         val quantity: Int?,

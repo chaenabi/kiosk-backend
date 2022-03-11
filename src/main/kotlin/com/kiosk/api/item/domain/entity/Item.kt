@@ -31,7 +31,7 @@ class Item(
 
 ) {
     fun updateItem(item: ItemRequestDTO.Update) {
-        this.name = item.name ?: this.name
+        this.name = item.itemName ?: this.name
         this.detail = item.detail ?: this.detail
         this.price = item.price ?: this.price
         this.quantity = item.quantity ?: this.quantity
