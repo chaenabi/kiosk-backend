@@ -1,3 +1,4 @@
+/*
 package com.kiosk.acceptance
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -46,7 +47,7 @@ class CustomerController {
     }
 
 
-    /*@Test
+    @Test
     fun `회원 정보 저장 - 성공`() {
         val content: Map<String, String> = mapOf<String, String>(
             "id" to "1",
@@ -71,6 +72,6 @@ class CustomerController {
             .andExpect(MockMvcResultMatchers.jsonPath("$.data.name").value(result.name))
             .andExpect(MockMvcResultMatchers.jsonPath("$.data.contactNumber").value(result.contactNumber))
             .andExpect(MockMvcResultMatchers.jsonPath("$.data.role").value(result.role.toString()))
-    }*/
+    }
 
-}
+}*/

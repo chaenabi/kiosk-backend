@@ -1,4 +1,4 @@
-INSERT INTO item (item_id, itemName, detail, price, quantity) VALUES (1, '원조김밥', '1번 아이템 설명', '2500', '1'); -- 김밥 시작
+INSERT INTO item (item_id, item_name, detail, price, quantity) VALUES (1, '원조김밥', '1번 아이템 설명', '2500', '1'); -- 김밥 시작
 INSERT INTO item (item_id, item_name, detail, price, quantity) VALUES (2, '김치김밥', '2번 아이템 설명', '3000', '1');
 INSERT INTO item (item_id, item_name, detail, price, quantity) VALUES (3, '참치김밥', '3번 아이템 설명', '3000', '2');
 INSERT INTO item (item_id, item_name, detail, price, quantity) VALUES (4, '치즈김밥', '4번 아이템 설명', '3000', '3');
